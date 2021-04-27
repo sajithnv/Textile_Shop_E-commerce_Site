@@ -1,0 +1,50 @@
+{% include 'main.html' %}
+<head>
+	<style type="text/css">
+		.login{
+			transform: translate(0px,-30px);
+			border:0.01px dashed white;
+			text-align: center;
+			width: 50%;
+			padding: 5%;
+			margin-left: 25%;
+			margin-top: 5%;
+		}.login-body{
+			background-color: black;
+		}
+		.bg-img-login{
+			 margin-bottom:-700px;
+			 opacity: 0.2;
+     		 width: 100%;
+		}
+		hr{
+			color: pink;
+		}
+		.login-form{
+			color:gold;
+		}
+		a{
+			text-decoration: none;
+			color: white;
+		}
+	</style>
+</head>
+<body class="login-body">
+	  <img class="bg-img-login" src="">
+
+	<div class="login">
+		<h1 style="color: crimson">SignUp_Form</h1><hr><hr><br>
+		<form method="post" class="login-form">
+			{% csrf_token %}
+			<!-- {{ form.as_p }}<br><hr> -->
+			<h4>{{form.username.label}}</h4>
+			<h4>{{form.username}}</h4>
+			<h4>{{form.password1.label}}</h4>
+			<h4>{{form.password1}}</h4>
+			<h4>{{form.password2.label}}</h4>
+			<h4>{{form.password2}}</h4>
+		    <input type="submit" value="Log_in"><br><br>
+			<a href="{% url 'account1:login1' %}">- Already_a_MEMBER :: Log_in -</a>
+		</form>
+	</div>
+</body>	

@@ -1,0 +1,60 @@
+{% include 'main.html' %}
+<head>
+	<style type="text/css">
+		table{
+			margin-left: 20%;
+		}
+		body{
+			background-color: black;
+		}
+		th{
+			color:white;
+		}
+		.qform{
+			padding-top: 5px;
+			color: white;
+			text-align: center;
+		}	
+		.sub_button{
+			background-color: red;
+			color: white;
+			margin-top: 1%;
+		}
+		h6{
+			color: gray;
+			margin-left: 1130px;
+		}	
+		.confirm-align{
+			transform: translate(1150px,-8px);
+		}
+		h2{
+			color: crimson;
+			text-align: center;
+			margin-top: 1%;
+		}
+		hr{
+			color: white;
+		}
+		
+	</style>
+</head>
+<body>
+	<h2>SELECTED_ITEM</h2><hr>
+	{% for i in selected_data %}
+	<table cellpadding="20">
+		<tr><th rowspan="5"><img src="{{i.img}}" width="300" height="300"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
+		<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
+		<tr><th>ITEM_SIZE </th><th>{{i.get_size_display}}</th></tr>
+		<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>
+		<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
+		</table><hr>
+	<form class="qform" method="post">	
+		{% csrf_token %}
+		<h3>Required_Quantity : {{new_data.quantity}}</h3>
+		<input class="sub_button" type="submit" value="SUBMIT QUANTITY">	
+	</form>
+	 <h6># After submitting quantity</h6>
+	 <a href="{% url 'stock1:calculate1' i.id %}"><button class="confirm-align">ADD TO CART</button></a>
+	{% endfor %}	
+
+</body>

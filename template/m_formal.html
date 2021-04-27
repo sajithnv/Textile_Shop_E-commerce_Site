@@ -1,0 +1,45 @@
+{%  include 'main.html' %}
+<head>
+	<style type="text/css">
+		body{
+			background-color: black;
+			color: white;
+		}
+		h1{
+			margin-top: 2%;
+			color: white;
+			text-align: center;
+		}
+		hr{
+			color: gold;
+		}
+		p{
+			margin-left: 55%;
+			transform: translate(0px,80px);
+		}
+		.img{
+			transform: translate(300px,-80px);
+		}
+		table{
+			margin-left: 20%;
+		}
+		.buy-button{
+			transform: translate(90px,0px);
+			color: white;
+			background-color: red;
+		}	
+	</style>
+</head>
+<body>
+	<h1>Men's FormalWears</h3><hr><hr>
+	{% for i in cate1 %}
+	<table cellpadding="20">
+		<tr><th rowspan="5"><img class="" src="{{i.img}}" width="300" height="300"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
+		<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
+		<tr><th>ITEM_SIZE </th><th>{{i.get_size_display}}</th></tr>
+		<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>
+		<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
+		<tr><th><a href="{% url 'stock1:selected_item1' i.id %}"><button class="buy-button">BUY NOW</button></a></th></tr>
+	</table><hr>
+	{% endfor %}
+</body>

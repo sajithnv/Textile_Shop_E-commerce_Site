@@ -1,0 +1,47 @@
+{% include 'main.html' %}
+<head>
+	<style type="text/css">
+		body{
+			background-color: black;
+			color: white;
+		}
+		h1{
+			color: crimson;
+			text-align: center;
+		}
+		.reg-btn{
+			background-color: red;
+			color: white;
+			margin-left: 43%;
+			margin-bottom: 5px;
+		}
+		.div-align{
+			border:10px solid gray;
+			width: 50%;
+			margin-left: 25%;
+		}
+		table{
+			text-align: center;
+			margin-left: 25%;
+		}	
+	</style>
+</head>
+<body>
+	<div>
+		<h1>REGISTRATION</h1><hr><hr>
+		<div class="div-align">
+			<form method="post">
+				{% csrf_token %}
+				<table cellpadding="10">
+				<tr><th>USER_NAME :</th></tr>
+				<tr><th>{{user_reg.user_name}}</th></tr>	
+				<tr><th>BILLING_ADDRESS :</th></tr>
+				<tr><th>{{user_reg.Billing_addrs}}</th></tr>	
+				<tr><th>PHONE_NUMBER :</th></tr>
+				<tr><th>{{user_reg.Phone}}</th></tr>	
+				</table><hr>
+				<input class="reg-btn" type="submit" value="REGISTER">
+			</form>
+		</div>	
+	</div>
+</body>

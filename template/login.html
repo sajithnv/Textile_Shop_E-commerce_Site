@@ -1,0 +1,44 @@
+{% include 'main.html' %}
+<head>
+	<style type="text/css">
+		.login{
+			transform: translate(0px,-30px);
+			border:0.01px dashed white;
+			text-align: center;
+			width: 50%;
+			padding: 5%;
+			margin-left: 25%;
+			margin-top: 5%;
+		}.login-body{
+			background-color: black;
+		}
+		.bg-img-login{
+			 margin-bottom:-700px;
+			 opacity: 0.2;
+     		 width: 100%;
+		}
+		hr{
+			color: pink;
+		}
+		.login-form{
+			color:gold;
+		}
+		a{
+			text-decoration: none;
+			color: white;
+		}
+	</style>
+</head>
+<body class="login-body">
+	  <img class="bg-img-login" src="">
+
+	<div class="login">
+		<h1 style="color: crimson">Log_in Form</h1><hr><hr><br>
+		<form method="post" class="login-form">
+			{% csrf_token %}
+			{{ form.as_p }}<br><hr>
+		    <input type="submit" value="Log_in"><br><br>
+			<a href="{% url 'account1:signup1' %}">- New_Member :: Sign_up -</a>
+		</form>
+	</div>
+</body>	
