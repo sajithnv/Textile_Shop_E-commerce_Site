@@ -49,3 +49,5 @@ class model_cart(models.Model):
 	quantity=models.PositiveIntegerField(null=True,blank=True)
 	bill_addrs=models.TextField(null=True,blank=True,max_length=100)
 	phone=models.IntegerField(null=True,blank=True)
+	unit_price=models.FloatField(null=True,blank=True)
+	img=models.CharField(max_length=2000,null=True,blank=True)

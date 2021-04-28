@@ -2,26 +2,15 @@
 <head>
 	<style type="text/css">
 		body{
-			background-color: black;
-			color: white;
+			background-color: lightblue;
 		}
 		h1{
-			color: crimson;
 			text-align: center;
-		}
-		.cart-align{
-			border: 4px solid blue;
-			width: 50%;
-			margin-left: 25%;
-			margin-top: 2%;
-			padding: 1%;
-		}
-		.cart-align-in{
-			padding-right: 5%;
-			padding-left: 5%;
+			color: crimson;
 		}
 		th{
 			font-size: 20px;
+			width: 200px;
 		}
 		.btn-align{
 			background-color: red;
@@ -30,24 +19,108 @@
 			margin-top: 10px;
 		}
 		hr{
+			background-color: black;
+		}
+		.div1{
+			width: 80%;
+			margin-left: 10%;
+			border: 1px solid black;
+			background-color: lightgray;
+		}
+		.div-main{
+			border: 1px solid black;
+			border-radius:15px;
+			margin: 1%;
+			padding: 3%;
+		}
+		.div2{
+			margin-left: 75%;
+		}
+		.main-button{
+			width: 50%;
+			margin-top: 5px;
+			margin-left: 25%;
+			background-color: red;
 			color: white;
 		}
+		.main-button1{
+			width: 49%;
+			margin-top: 5px;
+			background-color: red;
+			color: white;
+			transform: translate(0px,20px);
+		}
+		.main-button2{
+			width: 49%;
+			margin-top: 5px;
+			margin-left: 630px;
+			background-color: red;
+			color: white;
+			transform: translate(0px,-20px);
+		}
+		.cart-qty-info{
+	      background-color: red;
+	      color: white;
+	      border-radius: 90px;
+	      width: 14px;
+	      text-align: center;
+	      font-size: 10px;
+	      transform: translate(1096px,-167px);
+	    }
 	</style>
 </head>
 <body>
-	<div class="cart-align">
-		<i><h1>MY CART</h1></i><hr>
-		<h4>UserName : {{my_name}}</h4><hr><hr>
-		<div class="cart-align-in">
-		{% for i in my_cart_details %}
-			<table cellpadding="10" cellspacing="10">
-				<tr><th></th><th></th><th colspan="4"> <img width="100" height="100" src=""></th></tr>
-				<tr><th>Unit price </th><th>: {{i.price}}</th></tr>
-				<tr><th>Quantity </th><th>: {{i.quantity}}</th></tr>
-				<tr><th>Total Amount </th><th>: {{i.total}}</th></tr>
-			</table><hr>
-		{% endfor %}
+	<div class="div-main" style="background-color: white;">
+		<i><h1>MY CART</h1></i><h6 class="cart-qty-info">{{cart_qty1}}</h6><hr>
+		<h4>User : {{my_name}}</h4><hr>
+		{% if grand_total1 == 0 %}
+		<h3 style="color: red;text-align: center;">YOUR CART IS EMPTY !!!</h3>
+		<a href="{% url 'stock1:view1' 0 %}"><button class="main-button">Continue Shopping</button></a>
+		{% elif someone_purchased1 == 1 %}
+		<div class="div1"><hr>
+			{% for i in my_cart_details %}
+				<table cellpadding="10" cellspacing="10">
+					<tr><th>Unit price </th><th>: {{i.unit_price}}</th><th style="text-align: center;" rowspan="3"> <img width="100" height="100" src="{{i.img}}"></th></tr>
+					<tr style="color: red;"><th>Quantity </th><th>: {{i.quantity}}</th><th></th></tr>
+					<tr><th>Amount </th><th style="color: blue">: {{i.total}}</th><th></th></tr>
+				</table><hr>
+			{% endfor %}
 		</div>
+		<hr>
+		<div>
+			<table class="div2"cellpadding="5">
+				<tr><th>Total Amount</th><th>: {{grand_total1}}</th></tr>
+				<tr><th>Discount (10%)</th><th style="color: crimson;">: {{discount1|floatformat:2}}</th></tr>
+				<tr><th>After Discount</th><th>: {{afr_discount1|floatformat:2}}</th></tr>
+				<tr><th>Round Amount</th><th style="color: crimson;">: {{round_amt1|floatformat:2}}</th></tr>
+			</table>
+			<hr>
+			<h4 style="color: red;margin-left: 80%;">Grand Total: {{afr_round_amt1}}</h4>
+			<h3>Current_Stock : {{stock_balance}}</h3>
+		</div>
+		{% else %}
+		<div class="div1"><hr>
+			{% for i in my_cart_details %}
+				<table cellpadding="10" cellspacing="10">
+					<tr><th>Unit price </th><th>: {{i.unit_price}}</th><th style="text-align: center;" rowspan="3"> <img width="100" height="100" src="{{i.img}}"></th></tr>
+					<tr><th>Quantity </th><th>: {{i.quantity}}</th><th></th></tr>
+					<tr><th>Amount </th><th style="color: blue">: {{i.total}}</th><th></th></tr>
+				</table><hr>
+			{% endfor %}
+		</div>
+		<hr>
+		<div>
+			<table class="div2"cellpadding="5">
+				<tr><th>Total Amount</th><th>: {{grand_total1}}</th></tr>
+				<tr><th>Discount (10%)</th><th style="color: crimson;">: {{discount1|floatformat:2}}</th></tr>
+				<tr><th>After Discount</th><th>: {{afr_discount1|floatformat:2}}</th></tr>
+				<tr><th>Round Amount</th><th style="color: crimson;">: {{round_amt1|floatformat:2}}</th></tr>
+			</table>
+			<hr>
+			<h4 style="color: red;margin-left: 80%;">Grand Total: {{afr_round_amt1}}</h4>
+		</div><hr>
+		<a href="{% url 'stock1:view1' 0 %}"><button class="main-button1">Continue Shopping</button></a>
+		<a href=""><button class="main-button2">Proceed to Buy</button></a>
+		{% endif %}
 	</div>
 </body>
-['user','item_id','total','quantity','bill_addrs','phone']

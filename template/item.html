@@ -29,6 +29,13 @@
 			margin-left: 40%;
 			margin-top: 10px;
 		}
+		.btn-align1{
+			background-color: red;
+			color: white;
+			transform: translate(140px,-250px);
+			width: 300px;
+			height: 70px;
+		}
 		hr{
 			color: white;
 		}
@@ -36,7 +43,7 @@
 </head>
 <body>
 	<div class="confirmation-align">
-		<i><h1>CONFIRMATION</h1></i>
+		<i><h1>CONFIRMATION</h1></i>{{c1}}
 		<div class="confirmation-align-in">
 		{% for i in price_filter1 %}
 			{% if qty_filter1.quantity == None %}
@@ -54,7 +61,7 @@
 					<tr><th>Quantity </th><th>: {{qty_filter1.quantity}}</th></tr><hr>
 					<tr><th>Total Amount </th><th>: {{total_price}}</th></tr>
 				</table><hr><hr>
-				<a href="{% url 'stock1:register1' i.id %}"><button class="btn-align">Register Now</button></a>
+				<a href="{% url 'stock1:register1' i.id %}"><button class="btn-align1">Register Now</button></a>
 			{% elif qty_filter1.quantity > i.stock %}
 				<table cellpadding="10" cellspacing="10">
 					<tr><th></th><th> <img width="200" height="200" src="{{i.img}}"></th></tr>
@@ -79,7 +86,8 @@
 					<tr><th>Quantity </th><th>: {{qty_filter1.quantity}}</th></tr><hr>
 					<tr><th>Total Amount </th><th style="color: black;">: {{total_price}}</th></tr>
 				</table><hr><hr>
-				<h3 style="color:red;">CART STOCK OVERFLOW !!! OUT OF STOCK</h3>	
+				<h3 style="color:red;">CART STOCK OVERFLOW !!! OUT OF STOCK</h3>
+				<h4>Current_Stock : {{qty_balance1}}</h4>
 			{% elif qty_filter1.quantity >= 1 %}
 				<table cellpadding="10" cellspacing="10">
 					<tr><th></th><th> <img width="200" height="200" src="{{i.img}}"></th></tr>

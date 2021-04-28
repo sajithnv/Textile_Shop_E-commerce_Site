@@ -3,7 +3,6 @@ from stock.models import model_stock,model_purchase,model_customer,model_cart
 from stock.forms import form_stock,form_purchase,form_customer,form_cart
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
-
 # Create your views here
 def index(request):
 	return render(request,'index.html')
@@ -129,8 +128,12 @@ def calculate(request,pk):
 	total=qty*pric # TOTAL AMOUNT
 
 	max_qty=0
+	unit_price1=0
+	img1=''
 	for i in price_filter:
 		max_qty+=i.stock
+		unit_price1+=i.price
+		img1+=i.img
 	max_total=max_qty*pric
 
 	
@@ -148,29 +151,91 @@ def calculate(request,pk):
 	cart_qty_of_uniq_item=None
 	t=qty
 	stored=0
+	qty_balance=0
 	if registered==0:
-		pass		
+		pass	
 	elif total!=0.0 and total<=max_total: #we don't wan't to store unwanted datas
 		cart_qty_of_uniq_item = model_cart.objects.values_list('quantity').filter(user=u_name,item_id=pk)
-		for i in cart_qty_of_uniq_item:
-			t+=i[0]
-		if t < max_qty:
-			user_order = model_cart.objects.create(user=u_name,item_id=pk,total=total,quantity=qty,bill_addrs=addrs_filter,phone=phone_filter)	
-			stored+=1
+		queryset_filter=cart_qty_of_uniq_item
+		t1=0
+		if queryset_filter.count() != 0 :
+			for i in cart_qty_of_uniq_item: # qty balancing, stock qty >= cart qty
+				t+=i[0]  
+				t1+=i[0]
+			qty_balance = max_qty-t1
+		if t <= max_qty and queryset_filter.count() == 0:
+			user_order = model_cart.objects.create(user=u_name,item_id=pk,total=total,quantity=qty,bill_addrs=addrs_filter,phone=phone_filter,unit_price=unit_price1,img=img1)	
+			stored+=1	
+		elif t <= max_qty :
+			current_total = model_cart.objects.values_list('total').filter(user=u_name,item_id=pk)
+			current_total1=0
+			for i in current_total:
+				current_total1+=i[0]
+			current_qty1= t1
+			update_total=current_total1+total
+			update_qty=current_qty1+qty
+			user_order= model_cart.objects.filter(user=u_name,item_id=pk).update(total=update_total,quantity=update_qty)
+			stored+=1	
 
 
 	if qty_filter!= None:
 		qty_filter.delete()	
-	return render(request,'item.html',{'stored1':stored,'test_cust2':addrs_filter,'test_cust1':phone_filter,'price_filter1':price_filter,'qty_filter1':qty_filter,'total_price':float(total),'registered1':registered})	
-def view_cart(request):
-	my_cart=request.user.username
-	get_data=model_cart.objects.filter(user=my_cart)
+	return render(request,'item.html',{'qty_balance1':qty_balance,'stored1':stored,'test_cust2':addrs_filter,'test_cust1':phone_filter,'price_filter1':price_filter,'qty_filter1':qty_filter,'total_price':float(total),'registered1':registered})	
+def view_cart(request):		# hashed comment for : when someone add the item into their cart then,other users can only purchase the remaining qty
+	my_cart_name=request.user.username
+	get_data=model_cart.objects.filter(user=my_cart_name)
+	cart_total=model_cart.objects.values_list('total').filter(user=my_cart_name)
+	all_cart_id=model_cart.objects.values_list('item_id').filter(user=my_cart_name)
+
+	n=0
+	someone_purchased=0
+	stock_qty1=0
+	total_j=0
+
+	for i in all_cart_id:
+		for m in i:
+			cart_qty=model_cart.objects.values_list('quantity').filter(user=my_cart_name,item_id=m)#hint: remove "user=my_cart_name,"
+			stock_qty=model_stock.objects.values_list('stock').filter(id=m)
+			for k in stock_qty:
+				stock_qty1+=k[0]
+			for j in cart_qty:
+				for l in j:
+					total_j+=l
+			if total_j > stock_qty1:
+				someone_purchased+=1
+	
+	grand_total=0
+	afr_discount=0
+	for i in cart_total:
+		for j in i:
+			grand_total += j
+	discount=.1*grand_total	
+	afr_discount=grand_total-discount
+	afr_round_amt=0
+	round_amt=0
+	grand_total_afr_round_amt=0
+	if grand_total >= 1:
+		round_amt1= afr_discount%10    #get the last digit
+		grand_total_afr_round_amt += afr_discount-round_amt1
+		round_amt=afr_discount-grand_total_afr_round_amt
+	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
 	context={
-		'my_name':my_cart,
-		'my_cart_details':get_data
+		'my_name':my_cart_name,
+		'my_cart_details':get_data,
+		'grand_total1':grand_total,
+		'afr_discount1':afr_discount,
+		'discount1':discount,
+		'round_amt1':round_amt,
+		'afr_round_amt1':int(grand_total_afr_round_amt),
+		'someone_purchased1':someone_purchased,
+		'stock_balance':stock_qty1,
+		'cart_qty1':cart_qty123
 	}
 	return render(request,'view_carthtml.html',context)
-
+# def cart_qty_info(request):
+# 	my_cart_name=request.user.username
+# 	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
+# 	return render('main.html',{'cart_qty1':cart_qty123})
 def stock_minusing(request,pk):
 	stocks=model_stock.objects.filter(id=pk)#.values_list('stock',flat=True)
 	qty_filter=model_purchase.objects.last()
