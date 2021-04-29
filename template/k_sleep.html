@@ -1,45 +1,56 @@
-{%  include 'main.html' %}
+{% include 'main.html' %}
 <head>
 	<style type="text/css">
 		body{
-			background-color: black;
-			color: white;
+			background-image: radial-gradient(lightgray,white,gray,lightblue,gray,lightgray);
+			color: black;
 		}
 		h1{
 			margin-top: 2%;
-			color: white;
+			color: crimson;
 			text-align: center;
 		}
 		hr{
-			color: gold;
-		}
-		p{
-			margin-left: 55%;
-			transform: translate(0px,80px);
-		}
-		.img{
-			transform: translate(300px,-80px);
+			background-color: black;
 		}
 		table{
 			margin-left: 20%;
 		}
-		.buy-button{
-			transform: translate(90px,0px);
-			color: white;
-			background-color: red;
-		}	
+		.main{
+			text-decoration: none;
+			color: black;
+		}
+		.main:hover{
+			color: black;
+		}
+		.img{
+			border:2px solid black;
+		}
+		.header-line{
+			background-color: black;
+			height: 3px;
+		}
+		.main-div{
+			background-color: lightgray;
+			border: 2px solid gray;
+			width: 96%;
+			margin: 1%;
+			border-radius: 10px;
+			margin-left: 2%;
+		}
 	</style>
 </head>
 <body>
-	<h1>Kid's InnerWears And SleepWear</h1><hr><hr>
+	<h1>Kid's Sleep Wear<h1><div class="header-line"></div>
 	{% for i in cate17 %}
-	<table cellpadding="20">
-		<tr><th rowspan="5"><img class="" src="{{i.img}}" width="300" height="300"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
-		<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
-		<tr><th>ITEM_SIZE </th><th>{{i.get_size_display}}</th></tr>
-		<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>
-		<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
-		<tr><th><a href="{% url 'stock1:calculate1' i.id %}"><button class="buy-button">BUY NOW</button></a></th></tr>
-	</table><hr>
+		<a class="main" href="{% url 'stock1:selected_item1' i.id %}">
+			<div class="main-div">	
+				<table cellpadding="20">
+					<tr><th rowspan="4"><img class="img" src="{{i.img}}" width="200" height="200"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
+					<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
+					<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
+				</table>
+			</div>
+		</a>
 	{% endfor %}
 </body>

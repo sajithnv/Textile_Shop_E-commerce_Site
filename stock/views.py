@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from stock.models import model_stock,model_purchase,model_customer,model_cart
-from stock.forms import form_stock,form_purchase,form_customer,form_cart
+from stock.models import model_stock,model_qty,model_customer,model_cart
+from stock.forms import form_stock,form_qty,form_customer,form_cart
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 # Create your views here
@@ -97,7 +97,7 @@ def view(request,pk):
 
 def selected_item(request,pk):
 	uniq_data=model_stock.objects.filter(id=pk)
-	data=form_purchase(request.POST or None)
+	data=form_qty(request.POST or None)
 	if data.is_valid():
 		data.save()
 	return render(request,'selected_item.html',{'selected_data':uniq_data,'new_data':data})		
@@ -107,17 +107,17 @@ def register(request,pk):
 		u_register.save()
 		return redirect('stock1:selected_item1',pk=pk)
 	return render(request,'registerhtml.html',{'user_reg':u_register})	
-def calculate(request,pk):
+def add_to_cart(request,pk):
 	u_name=request.user.username
-	qty_filter=model_purchase.objects.last()
-	qty_list_count=model_purchase.objects.count()
+	qty_filter=model_qty.objects.last()
+	qty_list_count=model_qty.objects.count()
 	price_filter=model_stock.objects.filter(id=pk)
 	customer_data=model_customer.objects.values_list('user_name')
 	all_data=model_customer.objects.values_list('Phone','Billing_addrs').filter(user_name=u_name)
 	
 	if qty_list_count>1 :
 		for i in range(qty_list_count-1):
-			model_purchase.objects.first().delete()# delete unwanted data from purchase
+			model_qty.objects.first().delete()# delete unwanted data from purchase
 
 	qty=0 # REQUESTED QUANTITY
 	if qty_filter!=None:
@@ -130,10 +130,12 @@ def calculate(request,pk):
 	max_qty=0
 	unit_price1=0
 	img1=''
+	name=''
 	for i in price_filter:
 		max_qty+=i.stock
 		unit_price1+=i.price
 		img1+=i.img
+		name+=i.name
 	max_total=max_qty*pric
 
 	
@@ -164,7 +166,7 @@ def calculate(request,pk):
 				t1+=i[0]
 			qty_balance = max_qty-t1
 		if t <= max_qty and queryset_filter.count() == 0:
-			user_order = model_cart.objects.create(user=u_name,item_id=pk,total=total,quantity=qty,bill_addrs=addrs_filter,phone=phone_filter,unit_price=unit_price1,img=img1)	
+			user_order = model_cart.objects.create(user=u_name,item_id=pk,total=total,quantity=qty,bill_addrs=addrs_filter,phone=phone_filter,unit_price=unit_price1,img=img1,item_name=name)	
 			stored+=1	
 		elif t <= max_qty :
 			current_total = model_cart.objects.values_list('total').filter(user=u_name,item_id=pk)
@@ -186,7 +188,6 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 	get_data=model_cart.objects.filter(user=my_cart_name)
 	cart_total=model_cart.objects.values_list('total').filter(user=my_cart_name)
 	all_cart_id=model_cart.objects.values_list('item_id').filter(user=my_cart_name)
-
 	n=0
 	someone_purchased=0
 	stock_qty1=0
@@ -209,7 +210,7 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 	for i in cart_total:
 		for j in i:
 			grand_total += j
-	discount=.1*grand_total	
+	discount=.08*grand_total	
 	afr_discount=grand_total-discount
 	afr_round_amt=0
 	round_amt=0
@@ -232,24 +233,17 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 		'cart_qty1':cart_qty123
 	}
 	return render(request,'view_carthtml.html',context)
-# def cart_qty_info(request):
+	
+# def cart_qty_info():
 # 	my_cart_name=request.user.username
 # 	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
-# 	return render('main.html',{'cart_qty1':cart_qty123})
-def stock_minusing(request,pk):
-	stocks=model_stock.objects.filter(id=pk)#.values_list('stock',flat=True)
-	qty_filter=model_purchase.objects.last()
-	a=stocks
-	zz=a[0].stock
-	stock_balance=zz - qty_filter.quantity # a[0]=Total quantity and qty_filter.quantity= requsted qty
-	stk=model_stock.objects.filter(id=pk).update(stock=stock_balance)# Total quantity
-	# stk=stock_balance
+# 	return cart_qty123
+def proceed_to_pay(request,grand_total):
+	my_name=request.user.username
+	cart_data=model_cart.objects.filter(user=my_name)
 	
-	if stk != None:
-		return redirect('stock1:paid_page1',pk=pk)
-	return render(request,'item.html',{'a':zz,'qty':qty_filter.quantity,'stock_balance1':stock_balance})
 def paid_page(request,pk):
-	qty_filter=model_purchase.objects.last()
+	qty_filter=model_qty.objects.last()
 	price_filter=model_stock.objects.filter(id=pk)
 	qty=0 # REQUESTED QUANTITY
 	if qty_filter!=None:
@@ -270,3 +264,15 @@ def contact(request):
 	return render(request,'contact.html')
 def helpp(request):
 	return render(request,'helpp.html')	
+def delete_from_cart(request,pk):
+	my_name=request.user.username
+	data=model_cart.objects.filter(user=my_name,item_id=pk)
+	if data != None:
+		data.delete()
+		return redirect('stock1:view_cart1')
+def edit_cart(request,pk):
+	my_name=request.user.username
+	data=model_cart.objects.filter(user=my_name,item_id=pk)
+	if data != None:
+		data.delete()
+	return redirect('stock1:selected_item1',pk=pk)

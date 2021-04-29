@@ -40,7 +40,7 @@ class model_customer(models.Model):
 	user_name=models.CharField('user_name',max_length=100,null=True)
 	Billing_addrs=models.TextField('Billing_Address',max_length=100)
 	Phone=models.IntegerField('Phone_Number')
-class model_purchase(models.Model):
+class model_qty(models.Model):
 	quantity=models.PositiveIntegerField('Quantity')
 class model_cart(models.Model):
 	user=models.CharField(max_length=200,null=True,blank=True)
@@ -51,3 +51,4 @@ class model_cart(models.Model):
 	phone=models.IntegerField(null=True,blank=True)
 	unit_price=models.FloatField(null=True,blank=True)
 	img=models.CharField(max_length=2000,null=True,blank=True)
+	item_name=models.CharField(max_length=100,null=True,blank=True)

@@ -100,10 +100,10 @@
             Mens
           </a>
           <ul class="dropdown-menu outerbox-radius menu-hov" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 1 %}"><h5>Formal_Wear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 2 %}"><h5>Casual_Wear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 3 %}"><h5>Innerwear & Sleepwear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 4 %}"><h5>IndianFestiv_Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 1 %}"><h5>Formal Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 2 %}"><h5>Casual Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 3 %}"><h5>Sleep wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 4 %}"><h5>Festive Wear</h5></a></li>
           </ul>
         </li>
         <li class="nav-item dropdown drop-hov">
@@ -111,10 +111,11 @@
             Womens
           </a>
           <ul class="dropdown-menu outerbox-radius menu-hov" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 11 %}"><h5 style="color: red;">Formal_Wear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 12 %}"><h5 style="color: red;">Casual_Wear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 13 %}"><h5 style="color: red;">Innerwear & Sleepwear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 14 %}"><h5 style="color: red;">IndianFestiv_Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 11 %}"><h5 style="color: red;">Formal Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 12 %}"><h5 style="color: red;">Casual Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 13 %}"><h5 style="color: red;">
+            Sleep Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 14 %}"><h5 style="color: red;">Festive Wear</h5></a></li>
           </ul>
         </li>
         <li class="nav-item dropdown drop-hov">
@@ -122,9 +123,9 @@
             Kids
           </a>
           <ul class="dropdown-menu outerbox-radius menu-hov" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 16 %}"><h5 style="color: blue;">Casual_Wear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 17 %}"><h5 style="color: blue;">Innerwear & Sleepwear</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 18 %}"><h5 style="color: blue;">IndianFestiv_Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 16 %}"><h5 style="color: blue;">Casual Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 17 %}"><h5 style="color: blue;">Sleep Wear</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 18 %}"><h5 style="color: blue;">Festive Wear</h5></a></li>
           </ul>
         </li>
         <li class="nav-item dropdown drop-hov">
@@ -134,11 +135,10 @@
           <ul class="dropdown-menu outerbox-radius menu-hov" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="{% url 'stock1:view1' 19 %}"><h5 style="color: green;">Towels</h5></a></li>
             <li><a class="dropdown-item" href="{% url 'stock1:view1' 20 %}"><h5 style="color: green;">Curtains</h5></a></li>
-            <li><a class="dropdown-item" href="{% url 'stock1:view1' 21 %}"><h5 style="color: green;">Bed_sheets</h5></a></li>
+            <li><a class="dropdown-item" href="{% url 'stock1:view1' 21 %}"><h5 style="color: green;">Bed Sheets</h5></a></li>
           </ul>
         </li>
-        <a style="margin-top: 4px;" class="navbar-brand view_all" href="{% url 'stock1:view1' 0 %}">View_All</a>
-        
+        <a style="margin-top: 4px;" class="navbar-brand view_all" href="{% url 'stock1:view1' 0 %}">View_All</a>    
         {% if user.is_superuser %}
         <a style="margin-top: 4px;margin-left: 5px;" class="navbar-brand" href="../admin">Admin_Page</a>
         <a style="font-size: 35px;color: black;" href="{% url 'stock1:view_cart1' %}" class="fa fa-shopping-cart cart-style-A"></a>

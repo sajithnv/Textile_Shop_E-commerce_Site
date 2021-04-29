@@ -6,6 +6,7 @@
 		}
 		body{
 			background-color: black;
+			height: 500px;
 		}
 		th{
 			color:white;
@@ -35,26 +36,34 @@
 		hr{
 			color: white;
 		}
-		
+		.bg-img{
+			width: 100%;
+			opacity: 0.3;
+		}
+		.main-div-selected-item{
+			transform: translate(0px,-840px);
+		}
 	</style>
 </head>
 <body>
-	<h2>SELECTED_ITEM</h2><hr>
-	{% for i in selected_data %}
-	<table cellpadding="20">
-		<tr><th rowspan="5"><img src="{{i.img}}" width="300" height="300"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
-		<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
-		<tr><th>ITEM_SIZE </th><th>{{i.get_size_display}}</th></tr>
-		<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>
-		<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
-		</table><hr>
-	<form class="qform" method="post">	
-		{% csrf_token %}
-		<h3>Required_Quantity : {{new_data.quantity}}</h3>
-		<input class="sub_button" type="submit" value="SUBMIT QUANTITY">	
-	</form>
-	 <h6># After submitting quantity</h6>
-	 <a href="{% url 'stock1:calculate1' i.id %}"><button class="confirm-align">ADD TO CART</button></a>
-	{% endfor %}	
-
+	<img class="bg-img" src="https://images.chinahighlights.com/allpicture/2017/03/36a97374b583420192ef523a_cut_800x500_61.jpg">
+	<div class="main-div-selected-item">
+		<h2>SELECTED_ITEM</h2><hr>
+		{% for i in selected_data %}
+		<table cellpadding="20">
+			<tr><th rowspan="5"><img src="{{i.img}}" width="300" height="300"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
+			<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
+			<tr><th>ITEM_SIZE </th><th>{{i.get_size_display}}</th></tr>
+			<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>
+			<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
+			</table><hr>
+		<form class="qform" method="post">	
+			{% csrf_token %}
+			<h3>Required_Quantity : {{new_data.quantity}}</h3>
+			<input class="sub_button" type="submit" value="SUBMIT QUANTITY">	
+		</form>
+		 <h6># After submitting quantity</h6>
+		 <a href="{% url 'stock1:add_to_cart1' i.id %}"><button class="confirm-align">ADD TO CART</button></a>
+		{% endfor %}	
+	</div>
 </body>
