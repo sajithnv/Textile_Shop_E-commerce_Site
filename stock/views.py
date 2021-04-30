@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from stock.models import model_stock,model_qty,model_customer,model_cart
-from stock.forms import form_stock,form_qty,form_customer,form_cart
+from stock.models import model_stock,model_qty,model_customer,model_cart,model_my_orders,model_purchase_data
+from stock.forms import form_stock,form_qty,form_customer,form_cart,form_my_orders,form_purchase_data
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q #Max
 # Create your views here
 def index(request):
 	return render(request,'index.html')
@@ -238,28 +238,53 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 # 	my_cart_name=request.user.username
 # 	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
 # 	return cart_qty123
-def proceed_to_pay(request,grand_total):
+def proceed_to_buy(request,grand_total):
 	my_name=request.user.username
 	cart_data=model_cart.objects.filter(user=my_name)
+	current_stock=0
+	for i in cart_data:
+		my_order=model_my_orders.objects.create	(user=i.user,item_id=i.item_id,quantity=i.quantity,total=i.total,bill_addrs=i.bill_addrs,phone=i.phone,unit_price=i.unit_price,img=i.img,item_name=i.item_name)
+		get_stock=model_stock.objects.filter(id=i.item_id).values_list('stock')
+		for j in get_stock:
+			current_stock+=j[0]
+		new_stock=current_stock-i.quantity
+		stock_minusing=model_stock.objects.filter(id=i.item_id).update(stock=new_stock)
+	cart_data.delete()	
+	my_purchase=model_purchase_data.objects.create(user=my_name,grand_total=grand_total)
+	return redirect('stock1:bill_page1')
+def bill_page(request):
+	my_name=request.user.username
+	purchase_data = model_purchase_data.objects.filter(user=my_name)
+	date1=''
+	grand_total=0
+	max_id_set = []
 	
-def paid_page(request,pk):
-	qty_filter=model_qty.objects.last()
-	price_filter=model_stock.objects.filter(id=pk)
-	qty=0 # REQUESTED QUANTITY
-	if qty_filter!=None:
-		qty+=qty_filter.quantity
-	pric=0 # ITEM PRICE
-	for i in price_filter:
-		pric+=i.price	
-	total=qty*pric # TOTAL AMOUNT
-	reg_no=str(qty_filter.reg_phone) # given number	
-	billing_address=model_customer.objects.values_list('Billing_addrs',flat=True).filter(Phone=reg_no)
-	az=billing_address
-	for i in az:
-		address=str(i)
-	if qty_filter != None:	
-		qty_filter.delete()	
-	return render(request,'paid.html',{'adrs':address,'price_filter1':price_filter,'qty_filter1':qty_filter,'reg_no1':reg_no,'total_price':float(total)})
+	if purchase_data.count() > 1:
+		for i in purchase_data:
+			max_id_set.append(i.id)
+		max_id=max(max_id_set)		
+		selected_data = model_purchase_data.objects.filter(user=my_name,id=max_id)
+		for i in selected_data:
+			date1 += str(i.date)
+			grand_total += i.grand_total
+	elif purchase_data.count() == 1:		
+		for i in purchase_data:
+			date1 += str(i.date)
+			grand_total += i.grand_total
+	phone_addrs = model_customer.objects.values_list('Phone','Billing_addrs').filter(user_name=my_name)	
+	phone=0
+	addrs=''
+	for i in phone_addrs:
+		phone += i[0]
+		addrs += i[1]
+	content = {
+		'my_name1':my_name,
+		'date2':date1,
+		'grand_total1':grand_total,
+		'phone1':phone,
+		'addrs1':addrs
+	}
+	return render(request,'purchased.html',content)
 def contact(request):
 	return render(request,'contact.html')
 def helpp(request):

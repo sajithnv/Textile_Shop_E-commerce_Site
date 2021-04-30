@@ -156,7 +156,7 @@
 			<h4 style="color: red;margin-left: 80%;">Grand Total: {{afr_round_amt1}}</h4>
 		</div><hr>
 		<a href="{% url 'stock1:view1' 0 %}"><button class="main-button1">Continue Shopping</button></a>
-		<a href=""><button class="main-button2">Proceed to Pay</button></a>
+		<a href="{% url 'stock1:proceed_to_buy1' afr_round_amt1 %}"><button class="main-button2">Proceed to Pay</button></a>
 		{% endif %}
 	</div>
 </body>

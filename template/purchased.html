@@ -1,0 +1,48 @@
+<head>
+	<style type="text/css">
+		body{
+			color: black;
+		}
+		.div-align{
+			margin:2%;
+			border:5px solid gray;
+			height: 630px;
+			padding: 3%;
+
+		}
+		.div-align-in{
+			width: 80%;
+			margin-left: 10%;
+			text-align: center;
+			padding: 2%;
+			margin-top: 1%;
+		}
+		hr{
+			color:white;
+		}
+		table{
+			width: 60%;
+			margin-left: 20%;
+			text-align: left;
+		}
+		button{
+			color: white;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="div-align">
+		<hr><h3 style="color: green;">PURCHASE_COMPLETED_SUCCESSFULLY</h3><hr>
+		
+		<div class="div-align-in">
+			<table cellpadding="10" cellspacing="10">
+				<tr><th>NAME</th><th>{{my_name1}}</th></tr>
+				<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
+				<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
+				<tr><th>AMOUNT_TO_PAY</th><th>{{grand_total1}}</th></tr>
+			</table>
+			<a href="{% url 'stock1:index1'%}"><button>More_Items</button></a>
+		</div>
+	</div>
+</body>

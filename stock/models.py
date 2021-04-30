@@ -52,3 +52,18 @@ class model_cart(models.Model):
 	unit_price=models.FloatField(null=True,blank=True)
 	img=models.CharField(max_length=2000,null=True,blank=True)
 	item_name=models.CharField(max_length=100,null=True,blank=True)
+class model_my_orders(models.Model):
+	date=models.DateTimeField(auto_now_add=True)
+	user=models.CharField(max_length=200,null=True,blank=True)
+	item_id=models.PositiveIntegerField(null=True,blank=True)
+	total=models.FloatField(null=True,blank=True)
+	quantity=models.PositiveIntegerField(null=True,blank=True)
+	bill_addrs=models.TextField(null=True,blank=True,max_length=100)
+	phone=models.IntegerField(null=True,blank=True)
+	unit_price=models.FloatField(null=True,blank=True)
+	img=models.CharField(max_length=2000,null=True,blank=True)
+	item_name=models.CharField(max_length=100,null=True,blank=True)	
+class model_purchase_data(models.Model):
+	date=models.DateTimeField(auto_now_add=True)
+	user=models.CharField(max_length=200,null=True,blank=True)
+	grand_total=models.PositiveIntegerField(null=True,blank=True)
