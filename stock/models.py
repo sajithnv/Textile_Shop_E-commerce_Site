@@ -63,6 +63,7 @@ class model_my_orders(models.Model):
 	unit_price=models.FloatField(null=True,blank=True)
 	img=models.CharField(max_length=2000,null=True,blank=True)
 	item_name=models.CharField(max_length=100,null=True,blank=True)	
+	delivery_status=models.BooleanField(default=0,null=True,blank=True)
 class model_purchase_data(models.Model):
 	date=models.DateTimeField(auto_now_add=True)
 	user=models.CharField(max_length=200,null=True,blank=True)

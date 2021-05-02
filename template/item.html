@@ -18,20 +18,20 @@
 			margin-top: 1%;
 			padding: 1%;
 		}
-		.confirmation-align-in{
+		.main-div{
 			padding-right: 5%;
 			padding-left: 5%;
 		}
 		th{
 			font-size: 20px;
 		}
-		.btn-align{
+		.btn-align22{
 			background-color: red;
 			color: white;
-			margin-left: 40%;
-			margin-top: 10px;
+			margin-left: 50px;
+			width: 200px;						
 		}
-		.btn-align1{
+		.btn-align-register{
 			background-color: red;
 			color: white;
 			transform: translate(140px,-250px);
@@ -41,13 +41,14 @@
 		hr{
 			color: white;
 		}
+	
 	</style>
 </head>
 <body>
 	<img style="opacity: 0.2;" width="100%" src="https://media.istockphoto.com/vectors/shopping-cart-background-blue-there-is-a-line-around-the-idea-of-vector-id910056070?k=6&m=910056070&s=170667a&w=0&h=F3Mh5omFqQbPjSpWkGIOPPvv1zuq32ovhKkEA4zJfAA=">
 	<div class="confirmation-align">
 		<i><h1>CONFIRMATION</h1></i>{{c1}}
-		<div class="confirmation-align-in">
+		<div class="main-div">
 		{% for i in price_filter1 %}
 			{% if qty_filter1.quantity == None %}
 				<table cellpadding="10" cellspacing="10">
@@ -64,7 +65,7 @@
 					<tr><th>Quantity </th><th>: {{qty_filter1.quantity}}</th></tr><hr>
 					<tr><th>Total Amount </th><th>: {{total_price}}</th></tr>
 				</table><hr><hr>
-				<a href="{% url 'stock1:register1' i.id %}"><button class="btn-align1">Register Now</button></a>
+				<a href="{% url 'stock1:register1' i.id %}"><button class="btn-align-register">Register Now</button></a>
 			{% elif qty_filter1.quantity > i.stock %}
 				<table cellpadding="10" cellspacing="10">
 					<tr><th></th><th> <img width="200" height="200" src="{{i.img}}"></th></tr>
@@ -92,14 +93,15 @@
 				<h3 style="color:red;">CART STOCK OVERFLOW !!! OUT OF STOCK</h3>
 				<h4>Current_Stock : {{qty_balance1}}</h4>
 			{% elif qty_filter1.quantity >= 1 %}
-				<table cellpadding="10" cellspacing="10">
+				<table cellpadding="5" >
 					<tr><th></th><th> <img width="200" height="200" src="{{i.img}}"></th></tr>
 					<tr><th>Unit price </th><th>: {{i.price}}</th></tr>
 					<tr><th>Quantity </th><th>: {{qty_filter1.quantity}}</th></tr><hr>
 					<tr><th style="color: red;">Total Amount </th><th>: {{total_price}}</th></tr>
 				</table><hr><hr>
-				<h3 style="color:white;">ITEM ADDED TO CART SUCCESSFULLY</h3>
-				<a href="{% url 'stock1:view_cart1' %}"><button class="btn-align">Go To CART</button></a>
+				<h3 style="color:white;margin-left:38px;">ITEM ADDED TO CART SUCCESSFULLY</h3>
+				<a href="{% url 'stock1:view1' 0 %}"><button class="btn-align22">Continue Shopping</button></a>
+				<a href="{% url 'stock1:view_cart1' %}"><button class="btn-align22">Go To CART</button></a>
 			{% endif %}
 		{% endfor %}
 		</div>

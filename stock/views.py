@@ -24,7 +24,7 @@ def view(request,pk):
 	t8=model_stock.objects.filter(brand='PETER ENGLAND')
 	t9=model_stock.objects.filter(brand='RAYMOND')
 	# t10=model_stock.objects.filter(category__in=[1,2,3,4])
-	t10=model_stock.objects.filter(Q(category=1)|Q(category=2)|Q(category=4)|Q(category=5))
+	t10=model_stock.objects.filter(Q(category=1)|Q(category=2)|Q(category=4)|Q(category=3))
 	t11=model_stock.objects.filter(category__in=[5,6,7,8])
 	t12=model_stock.objects.filter(category=5)
 	t13=model_stock.objects.filter(category=6)
@@ -192,19 +192,19 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 	someone_purchased=0
 	stock_qty1=0
 	total_j=0
-
+	which_item=[] #out of stock items
 	for i in all_cart_id:
 		for m in i:
 			cart_qty=model_cart.objects.values_list('quantity').filter(user=my_cart_name,item_id=m)#hint: remove "user=my_cart_name,"
 			stock_qty=model_stock.objects.values_list('stock').filter(id=m)
 			for k in stock_qty:
-				stock_qty1+=k[0]
+				stock_qty1=k[0]
 			for j in cart_qty:
 				for l in j:
-					total_j+=l
+					total_j=l
 			if total_j > stock_qty1:
+				which_item.append(m)
 				someone_purchased+=1
-	
 	grand_total=0
 	afr_discount=0
 	for i in cart_total:
@@ -230,7 +230,9 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 		'afr_round_amt1':int(grand_total_afr_round_amt),
 		'someone_purchased1':someone_purchased,
 		'stock_balance':stock_qty1,
-		'cart_qty1':cart_qty123
+		'cart_qty1':cart_qty123,
+		'which_item1':which_item,
+		
 	}
 	return render(request,'view_carthtml.html',context)
 	
@@ -301,3 +303,7 @@ def edit_cart(request,pk):
 	if data != None:
 		data.delete()
 	return redirect('stock1:selected_item1',pk=pk)
+def my_orders(request):
+	my_name=request.user.username
+	datas=model_my_orders.objects.filter(user=my_name)
+	return render(request,'orderslist.html',{'datas1':datas})	

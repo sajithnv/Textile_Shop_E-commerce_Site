@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from stock.views import index, edit_cart, delete_from_cart, view_cart, contact, helpp, view, selected_item, add_to_cart, proceed_to_buy,bill_page, register#add
+from stock.views import index, my_orders, edit_cart, delete_from_cart, view_cart, contact, helpp, view, selected_item, add_to_cart, proceed_to_buy,bill_page, register#add
 
 urlpatterns=[
 	url(r'^$',index,name='index1'),
@@ -15,4 +15,5 @@ urlpatterns=[
 	url(r'^edit/(?P<pk>\d+)$',edit_cart,name='edit_cart1'),
 	url(r'^proceed_to_buy/(?P<grand_total>\d+)$',proceed_to_buy,name='proceed_to_buy1'),
 	url(r'^bill_page/$',bill_page,name='bill_page1'),
+	url(r'^my_orders/$',my_orders,name='my_orders1'),
 ]

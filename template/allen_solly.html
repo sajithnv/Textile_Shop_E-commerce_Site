@@ -38,11 +38,26 @@
 			border-radius: 10px;
 			margin-left: 2%;
 		}
+		.div-size{
+			height: 245px;
+		}
 	</style>
 </head>
 <body>
 	<h1>ALLEN SOLLY</h1><div class="header-line"></div>
 	{% for i in cate5 %}
+		{% if i.stock == 0 %}
+		<a class="main" href="{% url 'stock1:selected_item1' i.id %}">
+			<div class="main-div div-size">	
+				<table style="opacity: 0.5;" cellpadding="20">
+					<tr><th rowspan="4"><img class="img" src="{{i.img}}" width="200" height="200"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
+					<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
+					<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
+				</table>
+				<h4 style="color: red;transform: translate(22%,-130px);">OUT OF STOCK !!!</h4>
+			</div>
+		</a>	
+		{% else %}	
 		<a class="main" href="{% url 'stock1:selected_item1' i.id %}">
 			<div class="main-div">	
 				<table cellpadding="20">
@@ -52,5 +67,6 @@
 				</table>
 			</div>
 		</a>
+		{% endif %}
 	{% endfor %}
 </body>

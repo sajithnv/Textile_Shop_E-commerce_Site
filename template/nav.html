@@ -145,6 +145,7 @@
         <a style="font-size: 45px;" class="navbar-brand lock-log-A fa fa-unlock" href="{% url 'account1:logout1' %}"></a>
         {% elif user.is_authenticated %}
         <a style="font-size: 35px;color: black;" href="{% url 'stock1:view_cart1' %}" class="fa fa-shopping-cart cart-style"></a>
+        
         <a style="font-size: 45px;" class="navbar-brand lock-log fa fa-unlock" href="{% url 'account1:logout1' %}"></a>
         {% else %}
         <a style="font-size: 45px;" class="navbar-brand lock-log-no-user fa fa-lock" href="{% url 'account1:login1' %}"></a>

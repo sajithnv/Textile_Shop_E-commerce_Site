@@ -17,9 +17,9 @@
 			text-align: center;
 		}	
 		.sub_button{
-			background-color: red;
-			color: white;
 			margin-top: 1%;
+			background-color: crimson;
+			color: white;
 		}
 		h6{
 			color: gray;
@@ -27,6 +27,8 @@
 		}	
 		.confirm-align{
 			transform: translate(1150px,-8px);
+			background-color: red;
+			color: white;
 		}
 		h2{
 			color: crimson;
@@ -51,7 +53,7 @@
 		<h2>SELECTED_ITEM</h2><hr>
 		{% for i in selected_data %}
 		<table cellpadding="20">
-			<tr><th rowspan="5"><img src="{{i.img}}" width="300" height="300"></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
+			<tr><th rowspan="5"><a href="{{i.img}}" width="600" height="600"><img src="{{i.img}}" width="300" height="300"></a></th><th>ITEM_NAME </th><th>{{i.name}}</th></tr>
 			<tr><th>ITEM_BRAND </th><th>{{i.brand}}</th></tr>
 			<tr><th>ITEM_SIZE </th><th>{{i.get_size_display}}</th></tr>
 			<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>

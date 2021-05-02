@@ -1,0 +1,49 @@
+{% include 'main.html' %}
+<head>
+	<style type="text/css">
+		body{
+			background-color: lightblue;
+			color: black;
+			height: 570px;
+		}
+		h1{
+			text-align: center;
+			color: crimson;
+			margin: 5px;
+		}
+		th{
+			font-size: 20px;
+			width: 200px;
+		}
+		.div-main-in{
+			width: 96%;
+			margin: 2%;
+			border: 1px solid black;
+			background-color: lightgray;
+			border-radius: 10px;
+			padding: 2%;
+		}
+		table{
+			width: 80%;
+			margin-left: 10%;
+		}
+	</style>
+</head>
+<body>
+	<div class="div-main">
+		<div class="div-main-in">
+			<i><h1>MY ORDERS</h1></i><hr>
+			{% for i in datas1 %}
+				{% if i.delivery_status == 0 %}
+				<table>
+					<tr><th><img width="100" height="100" src="{{i.img}}"></th><th>QUANTITY</th><th>{{i.quantity}}</th><th>STATUS</th><th style="color: green;">: Delivery Expected In Two Days</th></tr>
+				</table><hr>
+				{% else %}
+				<table >
+					<tr><th><img width="100" height="100"src="{{i.img}}"></th><th>QUANTITY</th><th>{{i.quantity}}</th><th>STATUS</th><th style="color: black;">: Delivered</th></tr>
+				</table><hr>
+				{% endif %}
+			{% endfor %}
+		</div>
+		
+</body>

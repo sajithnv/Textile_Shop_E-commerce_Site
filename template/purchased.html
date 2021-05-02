@@ -6,7 +6,7 @@
 		.div-align{
 			margin:2%;
 			border:5px solid gray;
-			height: 630px;
+			height: 550px;
 			padding: 3%;
 
 		}
@@ -14,35 +14,60 @@
 			width: 80%;
 			margin-left: 10%;
 			text-align: center;
-			padding: 2%;
-			margin-top: 1%;
+			margin-top: 2%;
+			border: 2px solid gray;
+			height: 400px;
+			background-color: lightgray;
 		}
 		hr{
 			color:white;
 		}
 		table{
-			width: 60%;
-			margin-left: 20%;
+			width: 90%;
+			margin-left: 5%;
 			text-align: left;
+			border: 1px solid black;
 		}
 		button{
 			color: white;
 			background-color: red;
+			width: 330px;
+			height: 40px;
+			margin:1%;
+		}
+		.main-buttons{
+			margin-left: 70px;
+			margin-top: 15px;
+		}
+		li{
+			text-align: left;
+			font-size: 14px;
 		}
 	</style>
 </head>
 <body>
 	<div class="div-align">
-		<hr><h3 style="color: green;">PURCHASE_COMPLETED_SUCCESSFULLY</h3><hr>
+		<hr><h3 style="color: green;text-align: center;">PURCHASE_COMPLETED_SUCCESSFULLY</h3><hr>
 		
 		<div class="div-align-in">
+			<h4 style="color: crimson;">Purchase Bill</h4>
 			<table cellpadding="10" cellspacing="10">
 				<tr><th>NAME</th><th>{{my_name1}}</th></tr>
 				<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
 				<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
-				<tr><th>AMOUNT_TO_PAY</th><th>{{grand_total1}}</th></tr>
+				<tr><th>PAYMENT_METHOD</th><th>Cash On Delivery [COD]</th></tr>
+				<tr><th>AMOUNT_TO_PAY</th><th>{{grand_total1}}</th></tr>				
 			</table>
-			<a href="{% url 'stock1:index1'%}"><button>More_Items</button></a>
+			<!-- <a href="{% url 'stock1:index1'%}"><button>More_Items</button></a> -->
+			<ul>
+				<li>Item Deliver Within 4 days</li>
+				<li>No Replacement </li>
+			</ul>
+		</div>
+		<div class="main-buttons">
+			<a class="link-button" href="{% url 'stock1:index1' %}"><button>Back To Home</button></a>
+			<a class="link-button" href="{% url 'stock1:view1' 0 %}"><button>Continue Purchasing</button></a>
+			<a class="link-button" href="{% url 'stock1:view_cart1' %}"><button>Go to Cart</button></a>
 		</div>
 	</div>
 </body>
