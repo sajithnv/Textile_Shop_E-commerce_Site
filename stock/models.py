@@ -67,4 +67,12 @@ class model_my_orders(models.Model):
 class model_purchase_data(models.Model):
 	date=models.DateTimeField(auto_now_add=True)
 	user=models.CharField(max_length=200,null=True,blank=True)
+	before_discount=models.PositiveIntegerField(null=True,blank=True)
 	grand_total=models.PositiveIntegerField(null=True,blank=True)
+	bill_wise_profit=models.PositiveIntegerField(null=True,blank=True)	
+	delivery_status=models.BooleanField(default=0,null=True,blank=True)
+class model_delivery_data(models.Model):
+	user=models.CharField(max_length=200,null=True,blank=True)
+	grand_total_all=models.PositiveIntegerField(null=True,blank=True)
+	bill_addrs=models.TextField(null=True,blank=True,max_length=100)
+	phone=models.IntegerField(null=True,blank=True)

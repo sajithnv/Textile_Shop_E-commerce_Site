@@ -1,0 +1,66 @@
+{% include 'main.html' %}
+<head>
+	<title>TRANSACTIONS</title>
+	<style type="text/css">
+		body{
+			background-color: lightgray;
+		}
+		.main-div1{
+			margin: 1%;
+			padding: 2%;
+			border: 5px solid gray;
+			border-radius: 90px;
+			background-color: lightblue;
+			min-height: 280px;
+			text-align: center;
+		}
+		.table-div1{
+			width: 96%;
+			margin-left: 2%;
+			margin-top: 1%;
+			text-align: left;
+			font-size: 20px;
+			background-color: white;
+			border: 2px solid gray;
+		}
+		.main-div{
+			margin: 1%;
+			padding: 2%;
+			border: 5px solid gray;
+			border-radius: 10px;
+			background-color: lightblue;
+			min-height: 300px;
+			text-align: center;
+		}
+		.table-div{
+			width: 96%;
+			margin-left: 2%;
+			margin-top: 1%;
+			text-align: left;
+			background-color: white;
+			border: 2px solid gray;
+		}
+	</style>
+</head>
+<body>
+	<div class="main-div1">
+		<h2 style="color: red;">Current Status</h2><hr>
+		<table cellpadding="10" class="table-div1">
+			<tr style="border-bottom: 1px solid gray;"><th>Total Amount</th><th style="color: red;">Pending Balance</th><th style="color: blue;">Grand Total</th><th>Current Profit</th><th style="color: red;">Pending Profit</th><th style="color: blue;">Grand Profit</th></tr>
+			<tr><td>{{total1}}</td><td style="color: red;">{{pending_balance1}}</td><td style="color: blue;">{{grand_total1}}</td><td>{{profit1}}</td><td style="color: red;">{{pending_profit1}}</td><td style="color: blue;">{{total_profit1}}</td></tr>
+		</table>
+	</div>
+	<div class="main-div">
+		<h2 style="color: red;">All Transactions</h2><hr>
+		<table cellpadding="10" class="table-div">
+			<tr style="color: blue;border-bottom: 1px solid gray;"><th>User_Name</th><th>Date</th><th>First_Price</th><th>Total_Amount</th><th>Bill_Wise_Profit</th><th>Status</th></tr>
+			{% for i in all_purchase_data1 %}
+				{% if i.delivery_status == 1 %}
+					<tr><td>{{i.user}}</td><td>{{i.date}}</td><td>{{i.before_discount}}</td><td>{{i.grand_total}}</td><td>{{i.bill_wise_profit}}</td><td>{{i.delivery_status}}</td></tr>	
+				{% else %}
+					<tr style="color: crimson;"><td>{{i.user}}</td><td>{{i.date}}</td><td>{{i.before_discount}}</td><td>{{i.grand_total}}</td><td>{{i.bill_wise_profit}}</td><td>{{i.delivery_status}}</td></tr>
+				{% endif %}		
+			{% endfor %}	
+		</table>
+	</div>
+</body>

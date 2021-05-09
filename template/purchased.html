@@ -6,8 +6,8 @@
 		.div-align{
 			margin:2%;
 			border:5px solid gray;
-			height: 550px;
-			padding: 3%;
+			height: 570px;
+			padding: 2%;
 
 		}
 		.div-align-in{
@@ -15,6 +15,7 @@
 			margin-left: 10%;
 			text-align: center;
 			margin-top: 2%;
+			padding-bottom: 10px;
 			border: 2px solid gray;
 			height: 400px;
 			background-color: lightgray;
@@ -56,7 +57,9 @@
 				<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
 				<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
 				<tr><th>PAYMENT_METHOD</th><th>Cash On Delivery [COD]</th></tr>
-				<tr><th>AMOUNT_TO_PAY</th><th>{{grand_total1}}</th></tr>				
+				<tr><th>DATE & TIME</th><th>{{date12}}</th></tr>
+				<tr><th>AMOUNT_TO_PAY</th><th><strong style="color: red;">{{grand_total1}}</strong> &nbspINR</th></tr>
+
 			</table>
 			<!-- <a href="{% url 'stock1:index1'%}"><button>More_Items</button></a> -->
 			<ul>

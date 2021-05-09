@@ -4,7 +4,7 @@
 		body{
 			background-color: lightblue;
 			color: black;
-			height: 900px;
+			min-height: 620px;
 		}
 		h1{
 			text-align: center;
@@ -27,7 +27,7 @@
 			color: black;
 			width: 96%;
 			border: 1px solid black;
-			background-color: gray;
+			background-color: lightgray;
 			padding: 1%;
 			margin: 1%;
 			margin-left: 2%;
@@ -35,12 +35,12 @@
 			padding-left: 10%;
 		}
 		.div-main{
-			background-color: lightgray;
+			background-color: white;
 			border: 1px solid black;
 			border-radius:15px;
 			margin: 1%;
 			padding: 3%;
-			margin-top: -10px;
+			margin-top: -15px;
 		}
 		.div2{
 			margin-left: 75%;
@@ -74,7 +74,7 @@
 	      width: 14px;
 	      text-align: center;
 	      font-size: 10px;
-	      transform: translate(1096px,-180px);
+	      transform: translate(1094px,-174px);
 	    }
 	    .trash-link{
 	    	text-decoration: none;
@@ -100,7 +100,7 @@
 	    	transform: translate(30px,40px);
 	    }
 	    .stock-error{
-	    	border:5px solid red;
+	    	border:5px solid blue;
 	    }
 	</style>
 </head>
@@ -111,9 +111,9 @@
 		<h6 class="cart-qty-info">{{cart_qty1}}</h6><hr>
 		<h4>User : {{my_name}}</h4><hr>
 		{% if grand_total1 == 0 %}
-		<div style="height: 350px;">
+		<div style="height: 330px;">
 			<h3 style="color: red;text-align: center;padding-top: 200px;">YOUR CART IS EMPTY !!!</h3>
-			<a href="{% url 'stock1:view1' 0 %}"><button style="margin-top: 80px;" class="main-button">Continue Shopping</button></a>
+			<a href="{% url 'stock1:view1' 0 %}"><button style="margin-top: 70px;" class="main-button">Continue Shopping</button></a>
 		</div>	
 		{% elif someone_purchased1 >= 1 %}
 		<div>
@@ -126,6 +126,7 @@
 							<tr style="color: red;"><th>Quantity </th><th>: {{i.quantity}}</th></tr>
 							<tr><th>Amount </th><th style="color: crimson">: {{i.total}}</th></tr>
 						</table>
+						<h3 style="color: black;margin-left: 750px;">OUT OF STOCK <strong style="color: red;">!!!</strong></h3>
 					</div>	
 				{% else %}
 					<div class="div1">
@@ -150,7 +151,6 @@
 			<hr>
 			<h4 style="color: red;margin-left: 80%;">Grand Total: {{afr_round_amt1}}</h4>
 			<!-- <h3>Current_Stock : {{stock_balance}}</h3> -->
-			<h3 style="color: red">OUT OF STOCK !!!</h3>
 		</div>
 		{% else %}
 		<div>
@@ -180,5 +180,4 @@
 		<a href="{% url 'stock1:proceed_to_buy1' afr_round_amt1 %}"><button class="main-button2">Proceed to Buy</button></a>
 		{% endif %}
 	</div>
-	
 </body>

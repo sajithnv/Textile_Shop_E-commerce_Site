@@ -22,10 +22,21 @@
 			background-color: lightgray;
 			border-radius: 10px;
 			padding: 2%;
+			min-height: 570px;
 		}
 		table{
 			width: 80%;
 			margin-left: 10%;
+		}
+		.empty-div{
+			text-align: center;
+			padding-top: 200px;
+		}
+		.my-button-empty{
+			color: white;
+			background-color: red;
+			width: 600px;
+			margin-top: 140px;
 		}
 	</style>
 </head>
@@ -33,17 +44,28 @@
 	<div class="div-main">
 		<div class="div-main-in">
 			<i><h1>MY ORDERS</h1></i><hr>
-			{% for i in datas1 %}
-				{% if i.delivery_status == 0 %}
-				<table>
-					<tr><th><img width="100" height="100" src="{{i.img}}"></th><th>QUANTITY</th><th>{{i.quantity}}</th><th>STATUS</th><th style="color: green;">: Delivery Expected In Two Days</th></tr>
-				</table><hr>
-				{% else %}
-				<table >
-					<tr><th><img width="100" height="100"src="{{i.img}}"></th><th>QUANTITY</th><th>{{i.quantity}}</th><th>STATUS</th><th style="color: black;">: Delivered</th></tr>
-				</table><hr>
-				{% endif %}
-			{% endfor %}
+			{% if purchased1 == 0 %}
+			<div class="empty-div">
+				<h4 style="font-size: 30px;">Your Order_List Is Empty <strong style="color: red;">!!!</strong></h4>
+				<a href="{% url 'stock1:view1' 0 %}"><button class="my-button-empty">Start Your Shopping Now..</button></a>
+			</div>
+			{% else %}
+				{% for i in datas1 %}
+					{% if i.delivery_status == 0 %}
+					<table>
+						<tr><th rowspan="3"><img width="100" height="100" src="{{i.img}}"></th><th>STATUS</th><th style="color: green;">: Delivery Expected In Two Days</th></tr>
+						<tr><th>QUANTITY</th><th style="color: crimson;">: {{i.quantity}}</th></tr>
+						<tr><th>DATE & TIME</th><th style="color: blue;">: {{i.date}}</th></tr>
+					</table><hr>
+					{% else %}
+					<table>
+						<tr><th rowspan="3"><img width="100" height="100" src="{{i.img}}"></th><th>STATUS</th><th style="color: black;">: Delivered</th></tr>
+						<tr><th>QUANTITY</th><th style="color: crimson;">: {{i.quantity}}</th></tr>
+						<tr><th>DATE & TIME</th><th style="color: blue;">: {{i.date}}</th></tr>
+					</table><hr>
+					{% endif %}
+				{% endfor %}
+			{% endif %}	
 		</div>
 		
 </body>

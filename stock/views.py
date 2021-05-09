@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from stock.models import model_stock,model_qty,model_customer,model_cart,model_my_orders,model_purchase_data
+from stock.models import model_stock,model_qty,model_customer,model_cart,model_my_orders,model_purchase_data,model_delivery_data
 from stock.forms import form_stock,form_qty,form_customer,form_cart,form_my_orders,form_purchase_data
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q #Max
@@ -237,22 +237,25 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 	return render(request,'view_carthtml.html',context)
 	
 # def cart_qty_info():
-# 	my_cart_name=request.user.username
+# 	my_cart_name=request.user.username         
 # 	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
 # 	return cart_qty123
 def proceed_to_buy(request,grand_total):
 	my_name=request.user.username
 	cart_data=model_cart.objects.filter(user=my_name)
-	current_stock=0
+	total = 0
 	for i in cart_data:
+		current_stock=0
 		my_order=model_my_orders.objects.create	(user=i.user,item_id=i.item_id,quantity=i.quantity,total=i.total,bill_addrs=i.bill_addrs,phone=i.phone,unit_price=i.unit_price,img=i.img,item_name=i.item_name)
 		get_stock=model_stock.objects.filter(id=i.item_id).values_list('stock')
+		total += i.total
 		for j in get_stock:
 			current_stock+=j[0]
 		new_stock=current_stock-i.quantity
 		stock_minusing=model_stock.objects.filter(id=i.item_id).update(stock=new_stock)
+	profit = ((total / 2 ) -(total - int(grand_total)))
 	cart_data.delete()	
-	my_purchase=model_purchase_data.objects.create(user=my_name,grand_total=grand_total)
+	my_purchase=model_purchase_data.objects.create(user=my_name,grand_total=grand_total,before_discount=total,bill_wise_profit=profit)
 	return redirect('stock1:bill_page1')
 def bill_page(request):
 	my_name=request.user.username
@@ -284,7 +287,8 @@ def bill_page(request):
 		'date2':date1,
 		'grand_total1':grand_total,
 		'phone1':phone,
-		'addrs1':addrs
+		'addrs1':addrs,
+		'date12':date1
 	}
 	return render(request,'purchased.html',content)
 def contact(request):
@@ -306,4 +310,61 @@ def edit_cart(request,pk):
 def my_orders(request):
 	my_name=request.user.username
 	datas=model_my_orders.objects.filter(user=my_name)
-	return render(request,'orderslist.html',{'datas1':datas})	
+	purchased = 0
+	if datas.count() > 0:
+		purchased +=1
+	return render(request,'orderslist.html',{'datas1':datas,'purchased1':purchased})
+def delivery(request):
+	del_data=model_delivery_data.objects.all()
+	del_data.delete()
+	all_cust=model_customer.objects.values_list('user_name','Billing_addrs','Phone')
+	all_data_count = 0		
+	for i in all_cust:
+		user = i[0]
+		grand_totals = 0
+		addrs = i[1]
+		phone = i[2]
+		all_data=model_purchase_data.objects.filter(user=i[0])
+		for j in all_data:
+			if j.delivery_status == 0:
+				grand_totals += j.grand_total
+		if grand_totals != 0:
+			all_data_count += 1
+			zz= model_delivery_data.objects.create(user=user,grand_total_all=grand_totals,bill_addrs=addrs,phone=phone)
+	all_data=model_delivery_data.objects.all()
+	return render(request,'delivery_boy.html',{'all_data1':all_data,'count1':all_data_count})
+def delivered(request,pk):
+	cust_name=model_delivery_data.objects.values_list('user').filter(id=pk)
+	name = ''
+	for i in cust_name:
+		name += i[0]
+	a =	model_purchase_data.objects.filter(user=name).update(delivery_status=1)
+	b =	model_my_orders.objects.filter(user=name).update(delivery_status=1)
+	return redirect('stock1:delivery1')
+def transactions(request):
+	all_purchase_data =	model_purchase_data.objects.all()
+	grand_total = 0
+	total_profit = 0
+	all_data=model_purchase_data.objects.values_list('grand_total','bill_wise_profit')
+	for j in all_data:
+		grand_total += j[0]
+		total_profit += j[1]
+	pending_balance = 0	
+	pending_profit = 0
+	data = model_purchase_data.objects.values_list('grand_total','bill_wise_profit').filter(delivery_status=0)
+	for j in data:
+		pending_balance += j[0]
+		pending_profit += j[1]
+	total = grand_total - pending_balance
+	profit = total_profit - pending_profit
+	content1 = {
+		'all_purchase_data1':all_purchase_data,
+		'total1':total,
+		'pending_balance1':pending_balance,
+		'grand_total1':grand_total,
+		'profit1':profit,
+		'pending_profit1':pending_profit,
+		'total_profit1':total_profit,
+		
+	}	
+	return render(request,'transactions.html',content1)
