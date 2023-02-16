@@ -26,7 +26,7 @@
 			margin-left: 1130px;
 		}	
 		.confirm-align{
-			transform: translate(1150px,-8px);
+			transform: translate(550px,-8px);
 			background-color: red;
 			color: white;
 		}
@@ -60,13 +60,13 @@
 			<tr><th>CURRENT_STOCK </th><th>{{i.stock}}</th></tr>
 			<tr><th>ITEM_PRICE </th><th>{{i.price}}</th></tr>
 			</table><hr>
-		<form class="qform" method="post">	
+		<!-- <form class="qform" method="post">	
 			{% csrf_token %}
 			<h3>Required_Quantity : {{new_data.quantity}}</h3>
-			<input class="sub_button" type="submit" value="SUBMIT QUANTITY">	
-		</form>
-		 <h6># After submitting quantity</h6>
+			<input class="sub_button" type="submit" value="SUBMIT QUANTITY">
+		</form> -->
+		 <!-- <h6># After submitting quantity</h6> -->
 		 <a href="{% url 'stock1:add_to_cart1' i.id %}"><button class="confirm-align">ADD TO CART</button></a>
-		{% endfor %}	
+		 {% endfor %}	
 	</div>
 </body>

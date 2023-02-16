@@ -46,8 +46,7 @@
     }
     .nav-clr{
       background-image: linear-gradient(orange,pink,white,gray);
-      width: 100%;
-    }
+    } 
     .view_all{
       margin-left: 10px;
     }
@@ -71,15 +70,15 @@
     }
     .cart-style-A{
       text-decoration: none;
-      padding-top: 15px;
-      margin-left: 310px;
+      padding-top: 1.8%;
+      margin-left: 36.5%;
     }
     .cart-style-A:hover{
       color:black;
     }
     .cart-style{
       text-decoration: none;
-      padding-top: 15px;
+      padding-top: 1.3%;
       margin-left: 570px;
     }
     .cart-style:hover{
@@ -87,27 +86,124 @@
     }
     .cart-style-D{
       text-decoration: none;
-      padding-top: 15px;
+      padding-top: 1.3%;
       margin-left: 480px;
     }
     .cart-style-D:hover{
       color:black;
     }
+    @media(max-width: 1300px) and (min-width: 1200px){
+      .nav-clr{
+        background-image: linear-gradient(green,pink);
+      }
+      .cart-style-A{
+      text-decoration: none;
+      padding-top: 1.8%;
+      margin-left: 26.5%;
+      }
+    }
+    @media(max-width: 1200px) and (min-width: 991px){
+      .nav-clr{
+        background-image: linear-gradient(green,pink);  
+      }
+      .cart-style-A{
+      text-decoration: none;
+      padding-top: 1.8%;
+      margin-left: 5%;
+      }
+    }
+     @media(max-width: 990px) and (min-width: 769px){
+      .nav-clr{
+        background-image: linear-gradient(blue,pink);
+        max-height: 421px;
+      }
+      .a{
+        display: inline-flex;
+      }
+      .drop-hov:hover .menu-hov{
+        display: inline-flex;
+      }
+      .lock-log-A{
+        margin-left: 0px;
+        transform: translate(50px,-45px);
+        width: 40px;
+      }
+      .cart-style-A{
+        text-decoration: none;
+        width: 40px;
+        padding-top: 0px;
+        margin-left: 0px;
+      }
+      .view_all{
+       margin-left: 0px;
+      }
+    }
+     @media(max-width: 768px) and (min-width: 481px){
+       .nav-clr{
+        background-image: linear-gradient(red,pink);
+        max-height: 421px;
+      }
+      .a{
+        display: inline-flex;
+      }
+      .drop-hov:hover .menu-hov{
+        display: inline-flex;
+      }
+      .lock-log-A{
+        margin-left: 0px;
+        transform: translate(50px,-45px);
+        width: 40px;
+      }
+      .cart-style-A{
+        text-decoration: none;
+        width: 40px;
+        padding-top: 0px;
+        margin-left: 0px;
+      }
+      .view_all{
+       margin-left: 0px;
+      }
+      }
+     @media(max-width: 480px){
+      .nav-clr{
+        background-image: linear-gradient(orange,pink);
+      }
+      .a{
+        display: inline-flex;
+      }
+      .drop-hov:hover .menu-hov{
+        display: inline-flex;
+      }
+      .lock-log-A{
+        margin-left: 0px;
+        transform: translate(50px,-45px);
+        width: 40px;
+      }
+      .cart-style-A{
+        text-decoration: none;
+        width: 40px;
+        padding-top: 0px;
+        margin-left: 0px;
+      }
+      .view_all{
+       margin-left: 0px;
+      }
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
 </head>
 <body>
-<!-- https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVtcwqCVsHSY5vhpboumXIdXs-GtstId1NrTNZqNJq4C833vL06Vzn8Mb5sinkHGXaaF4&usqp=CAU  
- -->  <nav class="navbar navbar-expand-lg navbar-light bg-light nav-clr" >
+  <nav class="navbar navbar-expand-lg navbar-light bg-light nav-clr" >
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url 'stock1:index1' %}"><img class="logo" width="50" height="50" src="
       https://www.freepnglogos.com/uploads/flipkart-logo-png/flipkart-logo-basket-emblem-15.png"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse " id="navbarNavDropdown">
+    <div class="collapse navbar-collapse a" id="navbarNavDropdown">
       <ul class="navbar-nav ">
-        <li class="nav-item dropdown drop-hov">
+
+        <li class="nav-item dropdown drop-hov"> <!-- drop-hov --><!-- men(in down) -->
           <a class="nav-link dropdown-toggle men" href="{% url 'stock1:view1' 9 %}" style="color: black;">
             Mens
           </a>
@@ -149,12 +245,13 @@
             <li><a class="dropdown-item" href="{% url 'stock1:view1' 20 %}"><h5 style="color: green;">Curtains</h5></a></li>
             <li><a class="dropdown-item" href="{% url 'stock1:view1' 21 %}"><h5 style="color: green;">Bed Sheets</h5></a></li>
           </ul>
+          
         </li>
         <a style="margin-top: 4px;" class="navbar-brand view_all" href="{% url 'stock1:view1' 0 %}">View_All</a> 
-        
+
         {% if user.is_superuser %}
+        <a style="margin-top: 4px;margin-left: 5px;" class="navbar-brand" href="{% url 'stock1:transactions1' %}">Transactions</a>
         <a style="margin-top: 4px;margin-left: 5px;" class="navbar-brand" href="../admin">Admin_Page</a>
-        <a style="margin-top: 5px;margin-left: 5px;" class="navbar-brand" href="{% url 'stock1:transactions1' %}">Transactions</a>
         <a style="font-size: 35px;color: black;" href="{% url 'stock1:view_cart1' %}" class="fa fa-shopping-cart cart-style-A"></a>
         <a style="font-size: 45px;" class="navbar-brand lock-log-A fa fa-unlock" href="{% url 'account1:logout1' %}"></a>
         {% elif user.is_staff %}
@@ -169,8 +266,8 @@
         <a style="font-size: 45px;" class="navbar-brand lock-log-no-user fa fa-lock" href="{% url 'account1:login1' %}"></a>
         {% endif %}
       </ul>
-    </div>
-  </div>
+      </div>
+     </div> 
 </nav>
 </body>
 {% endblock %}

@@ -38,18 +38,25 @@
 			width: 600px;
 			margin-top: 140px;
 		}
+		.my-button{
+			color: white;
+			background-color: red;
+			margin-left: 10px;
+
+		}
 	</style>
 </head>
 <body>
 	<div class="div-main">
 		<div class="div-main-in">
-			<i><h1>MY ORDERS</h1></i><hr>
+			<i><h1>MY ORDERS</h1></i>
 			{% if purchased1 == 0 %}
 			<div class="empty-div">
 				<h4 style="font-size: 30px;">Your Order_List Is Empty <strong style="color: red;">!!!</strong></h4>
 				<a href="{% url 'stock1:view1' 0 %}"><button class="my-button-empty">Start Your Shopping Now..</button></a>
 			</div>
 			{% else %}
+			<a href="{% url 'stock1:bill_page1' 1 %}"><button style="margin-left: 70%;" class="my-button">Show My Last_Bill</button></a><a href="{% url 'stock1:bill_page1' 2 %}"><button class="my-button">Show My All_Bills</button></a><hr>
 				{% for i in datas1 %}
 					{% if i.delivery_status == 0 %}
 					<table>

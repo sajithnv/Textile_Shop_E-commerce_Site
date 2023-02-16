@@ -74,7 +74,7 @@
 	      width: 14px;
 	      text-align: center;
 	      font-size: 10px;
-	      transform: translate(1094px,-174px);
+	      transform: translate(1152px,-57px);
 	    }
 	    .trash-link{
 	    	text-decoration: none;
@@ -104,11 +104,10 @@
 	    }
 	</style>
 </head>
-<body>
+<body><h6 class="cart-qty-info">{{cart_qty1}}</h6>
 	<a style="font-size: 35px;color: black;" href="{% url 'stock1:my_orders1' %}" class="fa fa-history cart-history-align"></a>
-	<div class="div-main">
+	<div class="div-main">	
 		<i><h1>MY CART</h1></i>
-		<h6 class="cart-qty-info">{{cart_qty1}}</h6><hr>
 		<h4>User : {{my_name}}</h4><hr>
 		{% if grand_total1 == 0 %}
 		<div style="height: 330px;">
@@ -121,7 +120,7 @@
 				{% if i.item_id in which_item1 %}
 					<div class="div1 stock-error">
 						<table cellpadding="10" >
-							<tr><th>Item Name </th><th style="font-size: 15px;">: {{i.item_name}}</th><th style="text-align: center;" rowspan="4"> <img width="100" height="100" src="{{i.img}}"></th><th rowspan="4"><a class="fa fa-trash trash-link" href="{% url 'stock1:delete_from_cart1' i.item_id%}"></a></th><th rowspan="4"><a class="fa fa-edit edit-link" href="{% url 'stock1:edit_cart1' i.item_id%}"></a></th></tr>
+							<tr><th>Item Name </th><th style="font-size: 15px;">: {{i.item_name}}</th><th style="text-align: center;" rowspan="4"> <img width="100" height="100" src="{{i.img}}"></th><th rowspan="4"><a class="fa fa-minus trash-link" href="{% url 'stock1:delete_from_cart1' pk=i.item_id qty=i.quantity%}"></a></th><th rowspan="4"><a class="fa fa-plus edit-link" href="{% url 'stock1:edit_cart_plus'  pk=i.item_id qty=i.quantity%}"></a></th></tr>
 							<tr><th>Unit Price </th><th>: {{i.unit_price}}</th></tr>
 							<tr style="color: red;"><th>Quantity </th><th>: {{i.quantity}}</th></tr>
 							<tr><th>Amount </th><th style="color: crimson">: {{i.total}}</th></tr>
@@ -131,7 +130,7 @@
 				{% else %}
 					<div class="div1">
 						<table cellpadding="10" >
-							<tr><th>Item Name </th><th style="font-size: 15px;">: {{i.item_name}}</th><th style="text-align: center;" rowspan="4"> <img width="100" height="100" src="{{i.img}}"></th><th rowspan="4"><a class="fa fa-trash trash-link" href="{% url 'stock1:delete_from_cart1' i.item_id%}"></a></th><th rowspan="4"><a class="fa fa-edit edit-link" href="{% url 'stock1:edit_cart1' i.item_id%}"></a></th></tr>
+							<tr><th>Item Name </th><th style="font-size: 15px;">: {{i.item_name}}</th><th style="text-align: center;" rowspan="4"> <img width="100" height="100" src="{{i.img}}"></th><th rowspan="4"><a class="fa fa-minus trash-link" href="{% url 'stock1:delete_from_cart1' pk=i.item_id qty=i.quantity%}"></a></th><th rowspan="4"><a class="fa fa-plus edit-link" href="{% url 'stock1:edit_cart_plus'  pk=i.item_id qty=i.quantity%}"></a></th></tr>
 							<tr><th>Unit Price </th><th>: {{i.unit_price}}</th></tr>
 							<tr><th>Quantity </th><th>: {{i.quantity}}</th></tr>
 							<tr><th>Amount </th><th style="color: crimson">: {{i.total}}</th></tr>
@@ -157,7 +156,7 @@
 			{% for i in my_cart_details %}
 			<div class="div1">
 				<table cellpadding="10" >
-					<tr><th>Item Name </th><th style="font-size: 15px;">: {{i.item_name}}</th><th style="text-align: center;" rowspan="4"> <img width="100" height="100" src="{{i.img}}"></th><th rowspan="4"><a class="fa fa-trash trash-link" href="{% url 'stock1:delete_from_cart1' i.item_id%}"></a></th><th rowspan="4"><a class="fa fa-edit edit-link" href="{% url 'stock1:edit_cart1' i.item_id%}"></a></th></tr>
+					<tr><th>Item Name </th><th style="font-size: 15px;">: {{i.item_name}}</th><th style="text-align: center;" rowspan="4"> <img width="100" height="100" src="{{i.img}}"></th><th rowspan="4"><a class="fa fa-minus trash-link" href="{% url 'stock1:delete_from_cart1' pk=i.item_id qty=i.quantity%}"></a></th><th rowspan="4"><a class="fa fa-plus edit-link" href="{% url 'stock1:edit_cart_plus' pk=i.item_id qty=i.quantity%}"></a></th></tr>
 					<tr><th>Unit Price </th><th>: {{i.unit_price}}</th></tr>
 					<tr><th>Quantity </th><th>: {{i.quantity}}</th></tr>
 					<tr><th>Amount </th><th style="color: crimson">: {{i.total}}</th></tr>

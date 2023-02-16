@@ -3,15 +3,13 @@ from stock.models import model_stock,model_qty,model_customer,model_cart,model_m
 from stock.forms import form_stock,form_qty,form_customer,form_cart,form_my_orders,form_purchase_data
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q #Max
-# Create your views here
+
 def index(request):
 	return render(request,'index.html')
-# def add(request):
-# 	t1=form_stock(request.POST or None)
-# 	if t1.is_valid():
-# 		t1.save()
-# 		return redirect(request,'stock1:index1')
-# 	return render(request,'add.html',{'data':t1})	
+def cart_qty(request):
+	my_cart_name = request.user.username
+	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
+	return render(request,'nav.html',{'cart':cart_qty123})
 @login_required	
 def view(request,pk):
 	t1=model_stock.objects.all()
@@ -108,81 +106,32 @@ def register(request,pk):
 		return redirect('stock1:selected_item1',pk=pk)
 	return render(request,'registerhtml.html',{'user_reg':u_register})	
 def add_to_cart(request,pk):
-	u_name=request.user.username
-	qty_filter=model_qty.objects.last()
-	qty_list_count=model_qty.objects.count()
-	price_filter=model_stock.objects.filter(id=pk)
-	customer_data=model_customer.objects.values_list('user_name')
-	all_data=model_customer.objects.values_list('Phone','Billing_addrs').filter(user_name=u_name)
+		u_name=request.user.username
+		price_filter=model_stock.objects.filter(id=pk)
+		customer_data=model_customer.objects.values_list('user_name')
+		all_data=model_customer.objects.values_list('Phone','Billing_addrs').filter(user_name=u_name)
 	
-	if qty_list_count>1 :
-		for i in range(qty_list_count-1):
-			model_qty.objects.first().delete()# delete unwanted data from purchase
-
-	qty=0 # REQUESTED QUANTITY
-	if qty_filter!=None:
-		qty+=qty_filter.quantity
-	pric=0 # ITEM PRICE
-	for i in price_filter:
-		pric+=i.price	
-	total=qty*pric # TOTAL AMOUNT
-
-	max_qty=0
-	unit_price1=0
-	img1=''
-	name=''
-	for i in price_filter:
-		max_qty+=i.stock
-		unit_price1+=i.price
-		img1+=i.img
-		name+=i.name
-	max_total=max_qty*pric
-
+		pric=0 # ITEM PRICE
+		img1=''
+		name=''	
+		for i in price_filter:
+			pric+=i.price
+			img1+=i.img
+			name+=i.name
+		total=pric # TOTAL AMOUNT
 	
-	registered=0
-	addrs_filter = None
-	phone_filter = None	
-	for i in customer_data:
-		if u_name in i :
-			filter1=all_data[0]
-			phone_filter=filter1[0]		
-			addrs_filter=filter1[1]
-			registered+=1	
+		registered=0
+		addrs_filter = None
+		phone_filter = None	
+		for i in customer_data:
+			if u_name in i :
+				filter1=all_data[0]
+				phone_filter=filter1[0]
+				addrs_filter=filter1[1]
+				registered+=1	
 
-
-	cart_qty_of_uniq_item=None
-	t=qty
-	stored=0
-	qty_balance=0
-	if registered==0:
-		pass	
-	elif total!=0.0 and total<=max_total: #we don't wan't to store unwanted datas
-		cart_qty_of_uniq_item = model_cart.objects.values_list('quantity').filter(user=u_name,item_id=pk)
-		queryset_filter=cart_qty_of_uniq_item
-		t1=0
-		if queryset_filter.count() != 0 :
-			for i in cart_qty_of_uniq_item: # qty balancing, stock qty >= cart qty
-				t+=i[0]  
-				t1+=i[0]
-			qty_balance = max_qty-t1
-		if t <= max_qty and queryset_filter.count() == 0:
-			user_order = model_cart.objects.create(user=u_name,item_id=pk,total=total,quantity=qty,bill_addrs=addrs_filter,phone=phone_filter,unit_price=unit_price1,img=img1,item_name=name)	
-			stored+=1	
-		elif t <= max_qty :
-			current_total = model_cart.objects.values_list('total').filter(user=u_name,item_id=pk)
-			current_total1=0
-			for i in current_total:
-				current_total1+=i[0]
-			current_qty1= t1
-			update_total=current_total1+total
-			update_qty=current_qty1+qty
-			user_order= model_cart.objects.filter(user=u_name,item_id=pk).update(total=update_total,quantity=update_qty)
-			stored+=1	
-
-
-	if qty_filter!= None:
-		qty_filter.delete()	
-	return render(request,'item.html',{'qty_balance1':qty_balance,'stored1':stored,'test_cust2':addrs_filter,'test_cust1':phone_filter,'price_filter1':price_filter,'qty_filter1':qty_filter,'total_price':float(total),'registered1':registered})	
+		user_order = model_cart.objects.create(user=u_name,item_id=pk,total=total,quantity=1,bill_addrs=addrs_filter,phone=phone_filter,unit_price=total,img=img1,item_name=name)	
+	return render(request,'item.html',{'registered1':registered,'price_filter1':price_filter})	
 def view_cart(request):		# hashed comment for : when someone add the item into their cart then,other users can only purchase the remaining qty
 	my_cart_name=request.user.username
 	get_data=model_cart.objects.filter(user=my_cart_name)
@@ -235,11 +184,7 @@ def view_cart(request):		# hashed comment for : when someone add the item into t
 		
 	}
 	return render(request,'view_carthtml.html',context)
-	
-# def cart_qty_info():
-# 	my_cart_name=request.user.username         
-# 	cart_qty123=model_cart.objects.values_list('item_id').filter(user=my_cart_name).count()
-# 	return cart_qty123
+
 def proceed_to_buy(request,grand_total):
 	my_name=request.user.username
 	cart_data=model_cart.objects.filter(user=my_name)
@@ -256,22 +201,19 @@ def proceed_to_buy(request,grand_total):
 	profit = ((total / 2 ) -(total - int(grand_total)))
 	cart_data.delete()	
 	my_purchase=model_purchase_data.objects.create(user=my_name,grand_total=grand_total,before_discount=total,bill_wise_profit=profit)
-	return redirect('stock1:bill_page1')
-def bill_page(request):
+	return redirect('stock1:bill_page1',pk='0')
+def bill_page(request,pk):
+	pk1=int(pk)
 	my_name=request.user.username
 	purchase_data = model_purchase_data.objects.filter(user=my_name)
-	date1=''
-	grand_total=0
-	max_id_set = []
-	
-	if purchase_data.count() > 1:
-		for i in purchase_data:
-			max_id_set.append(i.id)
-		max_id=max(max_id_set)		
-		selected_data = model_purchase_data.objects.filter(user=my_name,id=max_id)
-		for i in selected_data:
-			date1 += str(i.date)
-			grand_total += i.grand_total
+	date1 = ''
+	grand_total = 0
+	delivery_status = 0	
+	if purchase_data.count() > 1:	
+		selected_data = model_purchase_data.objects.filter(user=my_name).last()
+		date1 += str(selected_data.date)
+		grand_total += selected_data.grand_total
+		delivery_status += selected_data.delivery_status
 	elif purchase_data.count() == 1:		
 		for i in purchase_data:
 			date1 += str(i.date)
@@ -283,30 +225,45 @@ def bill_page(request):
 		phone += i[0]
 		addrs += i[1]
 	content = {
+		'purchase_data1':purchase_data,
+		'delivery_status1':delivery_status,
 		'my_name1':my_name,
 		'date2':date1,
 		'grand_total1':grand_total,
 		'phone1':phone,
 		'addrs1':addrs,
-		'date12':date1
+		'date12':date1,
+		'pk1':pk1
 	}
 	return render(request,'purchased.html',content)
 def contact(request):
 	return render(request,'contact.html')
 def helpp(request):
 	return render(request,'helpp.html')	
-def delete_from_cart(request,pk):
+def delete_from_cart(request,pk,qty):
 	my_name=request.user.username
 	data=model_cart.objects.filter(user=my_name,item_id=pk)
-	if data != None:
+	unit_price=model_stock.objects.values_list('price').filter(id=pk)[0]
+	tot_qty=model_stock.objects.values_list('stock').filter(id=pk)[0]
+	if int(qty) > 1:
+		model_cart.objects.filter(user=my_name,item_id=pk).update(quantity=int(qty)-1,total=(int(qty)-1)*unit_price[0])# qty ++ AND total update
+	elif data != None:
 		data.delete()
-		return redirect('stock1:view_cart1')
+	return redirect('stock1:view_cart1')
 def edit_cart(request,pk):
 	my_name=request.user.username
 	data=model_cart.objects.filter(user=my_name,item_id=pk)
 	if data != None:
 		data.delete()
 	return redirect('stock1:selected_item1',pk=pk)
+def edit_cart_plus(request,pk,qty):
+	my_name=request.user.username
+	unit_price=model_stock.objects.values_list('price').filter(id=pk)[0]
+	tot_qty=model_stock.objects.values_list('stock').filter(id=pk)[0]
+	
+	if int(qty) <= tot_qty[0]:
+		model_cart.objects.filter(user=my_name,item_id=pk).update(quantity=int(qty)+1,total=(int(qty)+1)*unit_price[0])# qty ++ AND total update
+	return redirect('stock1:view_cart1')
 def my_orders(request):
 	my_name=request.user.username
 	datas=model_my_orders.objects.filter(user=my_name)

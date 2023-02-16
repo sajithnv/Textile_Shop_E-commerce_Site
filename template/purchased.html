@@ -1,4 +1,5 @@
 <head>
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<style type="text/css">
 		body{
 			color: black;
@@ -6,7 +7,7 @@
 		.div-align{
 			margin:2%;
 			border:5px solid gray;
-			height: 570px;
+			min-height: 570px;
 			padding: 2%;
 
 		}
@@ -17,7 +18,7 @@
 			margin-top: 2%;
 			padding-bottom: 10px;
 			border: 2px solid gray;
-			height: 400px;
+			height: 410px;
 			background-color: lightgray;
 		}
 		hr{
@@ -37,8 +38,8 @@
 			margin:1%;
 		}
 		.main-buttons{
-			margin-left: 70px;
-			margin-top: 15px;
+			margin-left: 81px;
+			margin-top: 5px;
 		}
 		li{
 			text-align: left;
@@ -48,8 +49,8 @@
 </head>
 <body>
 	<div class="div-align">
+		{% if pk1 == 0 %}	
 		<hr><h3 style="color: green;text-align: center;">PURCHASE_COMPLETED_SUCCESSFULLY</h3><hr>
-		
 		<div class="div-align-in">
 			<h4 style="color: crimson;">Purchase Bill</h4>
 			<table cellpadding="10" cellspacing="10">
@@ -72,5 +73,70 @@
 			<a class="link-button" href="{% url 'stock1:view1' 0 %}"><button>Continue Purchasing</button></a>
 			<a class="link-button" href="{% url 'stock1:view_cart1' %}"><button>Go to Cart</button></a>
 		</div>
+		{% elif pk1 == 1 %}
+			{% if delivery_status1 == 0 %}
+			<div style="height: 430px;" class="div-align-in">
+				<h4 style="color: crimson;">Purchased_Bill</h4>
+				<table cellpadding="10" cellspacing="10">
+					<tr><th>NAME</th><th>{{my_name1}}</th></tr>
+					<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
+					<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
+					<tr><th>PAYMENT_METHOD</th><th>Cash On Delivery [COD]</th></tr>
+					<tr><th>DATE & TIME</th><th>{{date12}}</th></tr>
+					<tr><th>AMOUNT_TO_PAY</th><th><strong style="color: red;">{{grand_total1}}</strong>
+					 &nbspINR</th></tr>
+					 <tr><th>PAYMENT</th><th class="fa fa-times-circle" style="color: red;font-size: 20px;"></th></tr>
+				</table>
+				<a class="link-button" href="{% url 'stock1:my_orders1' %}"><button style="margin-top: 60px;" class="fa fa-arrow-left"> &nbsp&nbspGo To My_Orders </button></a>
+			</div>
+			{% else %}
+			<div style="height: 430px;" class="div-align-in">
+				<h4 style="color: crimson;">Purchased_Bill</h4>
+				<table cellpadding="10" cellspacing="10">
+					<tr><th>NAME</th><th>{{my_name1}}</th></tr>
+					<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
+					<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
+					<tr><th>PAYMENT_METHOD</th><th>Cash On Delivery [COD]</th></tr>
+					<tr><th>DATE & TIME</th><th>{{date12}}</th></tr>
+					<tr><th>AMOUNT_TO_PAY</th><th><strong style="color: red;">{{grand_total1}}</strong> &nbspINR</th></tr>
+					<tr><th>PAYMENT</th><th class="fa fa-check-circle" style="color: green;font-size: 20px;"></th></tr>
+				</table>
+				<a class="link-button" href="{% url 'stock1:my_orders1' %}"><button style="margin-top: 60px;"class="fa fa-arrow-left"> &nbsp&nbspGo To My_Orders </button></a>
+			</div>
+			{% endif %}
+		{% elif pk1 == 2 %}
+		<a class="link-button" href="{% url 'stock1:my_orders1' %}"><button class="fa fa-arrow-left"> &nbsp&nbspGo To My_Orders </button></a>
+		<ol>
+		{% for i in purchase_data1 %}
+			{% if i.delivery_status == 0 %}
+			<li><div style="margin-left: 10%;height: 430px;" class="div-align-in">
+				<h4 style="color: crimson;">Purchased_Bill</h4>
+				<table cellpadding="10" cellspacing="10">
+					<tr><th>NAME</th><th>{{my_name1}}</th></tr>
+					<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
+					<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
+					<tr><th>PAYMENT_METHOD</th><th>Cash On Delivery [COD]</th></tr>
+					<tr><th>DATE & TIME</th><th>{{i.date}}</th></tr>
+					<tr><th>AMOUNT_TO_PAY</th><th><strong style="color: red;">{{i.grand_total}}</strong> &nbspINR</th></tr>
+					<tr><th>PAYMENT</th><th class="fa fa-times-circle" style="color: red;font-size: 20px;"></th></tr>
+				</table>
+			</div></li>
+			{% else %}
+			<li><div style="margin-left: 10%;height: 430px;" class="div-align-in">
+				<h4 style="color: crimson;">Purchased_Bill</h4>
+				<table cellpadding="10" cellspacing="10">
+					<tr><th>NAME</th><th>{{my_name1}}</th></tr>
+					<tr><th>BILLING_ADDRESS</th><th>{{addrs1}}</th></tr>
+					<tr><th>PHONE_NUMBER</th><th>{{phone1}}</th></tr>
+					<tr><th>PAYMENT_METHOD</th><th>Cash On Delivery [COD]</th></tr>
+					<tr><th>DATE & TIME</th><th>{{i.date}}</th></tr>
+					<tr><th>AMOUNT_TO_PAY</th><th><strong style="color: red;">{{i.grand_total}}</strong> &nbspINR</th></tr>
+					<tr><th>PAYMENT</th><th class="fa fa-check-circle" style="color: green;font-size: 20px;"></th></tr>
+				</table>
+			</div></li>
+			{% endif %}
+		{% endfor %}
+		</ol>
+		{% endif %}
 	</div>
 </body>

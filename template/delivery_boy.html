@@ -13,6 +13,25 @@
 			background-color: lightblue;
 			min-height: 580px;
 		}
+		.main-div-error-in{
+			margin: 1%;
+			border: 1px solid black;
+			border-radius: 10px;
+			background-color: white;
+			padding-left: 25%;
+			padding-top: 4%;
+			padding-bottom: 4%;
+			width: 90%;
+			margin-left: 5%;
+			margin-top: 50px;
+		}
+		.main-div-error{
+			margin: 1%;
+			border: 1px solid black;
+			border-radius: 10px;
+			background-color: lightblue;
+			min-height: 580px;
+		}
 		.delivery-table{
 			background-color: white;
 			width: 90%;
@@ -28,13 +47,14 @@
 	</style>
 </head>
 <body>
-	<div class="main-div">
-		{% if count1 == 0 %}
-			<div>
-				<img width="100%" height="530" src="https://media.istockphoto.com/vectors/student-at-work-concept-student-as-a-pizza-delivery-person-riding-vector-id1300233107?k=6&m=1300233107&s=612x612&w=0&h=6SVyqXYIcQXVgHc4Euv-YafE69vXpwB4vDLbIzVobjA=">
-				<h3><strong><b style="color: red;">YOUR JOB IS DONE SUCCESSFULLY !!!</b></strong></h3>
+	{% if count1 == 0 %}
+		<div class="main-div-error">
+			<div class="main-div-error-in">
+				<img src="https://t3.ftcdn.net/jpg/00/61/71/52/360_F_61715238_MpbPwUdb9fdHNDL0MDIT1uqnEzUn8qqL.jpg">
 			</div>
-		{% else %}
+		</div>
+	{% else %}
+		<div class="main-div">
 			{% for i in all_data1 %}
 				<div class="delivery-table">
 					<table style="font-size: 25px;" cellpadding="10">
@@ -46,7 +66,6 @@
 					<a href="{% url 'stock1:delivered1' i.id %}"><button class="paid-button">PAYMENT COLLECTED SUCCESSFULLY</button></a>
 				</div><hr>
 			{% endfor %}
-		{% endif %}
-		
-	</div>
+		</div>
+	{% endif %}
 </body>

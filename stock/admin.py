@@ -18,4 +18,3 @@ admin.site.register(model_customer,adminview2)
 admin.site.register(model_cart,adminview3)
 admin.site.register(model_my_orders)
 admin.site.register(model_purchase_data,adminview4)
-
